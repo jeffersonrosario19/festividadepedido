@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arraial de São Francisco de Assis - Cardapio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #fff8f0;
+    }
+    h1 {
+      color: #cc6600;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #cc6600;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background-color: #aa5500;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌮 Arraial de São Francisco de Assis</h1>
+  <h1>Cardapio</h1>
+  <form id="pedidoForm">
+    <label><input type="checkbox" name="item" value="Tacacá R$12,00"> Tacacá - R$12,00</label>
+    <label><input type="checkbox" name="item" value="Vatapá R$10,00"> Vatapá - R$10,00</label>
+    <label><input type="checkbox" name="item" value="Maniçoba R$15,00"> Maniçoba - R$15,00</label>
+    <label><input type="checkbox" name="item" value="Caruru R$10,00"> Caruru - R$10,00</label><label><input type="checkbox" name="item" value="Espetinho de Carne R$6,00"> Espetinho de Carne - R$6,00</label>
+<label><input type="checkbox" name="item" value="Espetinho de Frango R$5,00"> Espetinho de Frango - R$5,00</label>
+<label><input type="checkbox" name="item" value="Espetinho de Queijo Coalho R$4,00"> Espetinho de Queijo Coalho - R$4,00</label>
+
+<label><input type="checkbox" name="item" value="Refrigerante Lata R$5,00"> Refrigerante Lata - R$5,00</label>
+<label><input type="checkbox" name="item" value="Suco Natural R$6,00"> Suco Natural - R$6,00</label>
+<label><input type="checkbox" name="item" value="Água Mineral R$3,00"> Água Mineral - R$3,00</label>
+
+<label style="margin-top:20px;">Nome do Cliente:<br>
+  <input type="text" id="nomeCliente" style="width:100%; padding:8px;">
+</label>
+
+<button type="button" class="btn" onclick="enviarPedido()">Enviar pedido via WhatsApp</button>
+
+  </form>  <script>
+    function enviarPedido() {
+      const itens = document.querySelectorAll('input[name="item"]:checked');
+      const nome = document.getElementById("nomeCliente").value || "Não informado";
+      let mensagem = `📍 Pedido - Festividade de São Francisco de Assis\n\nCliente: ${nome}\nItens:\n`;
+
+      itens.forEach(item => {
+        mensagem += `- ${item.value}\n`;
+      });
+
+      mensagem += "\nRetirada na barraca de alimentação\n\nObrigado!";
+
+      const textoFinal = encodeURIComponent(mensagem);
+      const telefone = "5591980499217"; // coloque o telefone do atendente com DDD
+      window.open(`https://wa.me/${telefone}?text=${textoFinal}`, '_blank');
+    }
+  </script></body>
+</html>
