@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardápio - Arraial de São Francisco de Assis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ff8c00;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 1rem;
+    }
+    .item {
+      background-color: white;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .item label {
+      display: block;
+      font-weight: bold;
+    }
+    .item input[type="number"] {
+      width: 60px;
+      margin-top: 0.5rem;
+    }
+    .btn {
+      display: block;
+      margin: 2rem auto;
+      padding: 1rem;
+      font-size: 1.1rem;
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 90%;
+      max-width: 300px;
+    }
+    @media (max-width: 600px) {
+      .item input[type="number"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cardápio - Arraial de São Francisco de Assis</h1>
+  </header>
+  <main>
+    <form id="pedidoForm">
+      <div class="item">
+        <label for="tacaca">Tacacá R$ 10,00</label>
+        <input type="number" id="tacaca" name="Tacacá" min="0" value="">
+      </div>
+      <div class="item">
+        <label for="maniçoba">Maniçoba R$ 12,00</label>
+        <input type="number" id="maniçoba" name="Maniçoba" min="0" value="">
+      </div>
+      <div class="item">
+        <label for="vatapa">Vatapá R$ 7,00</label>
+        <input type="number" id="vatapa" name="Vatapá" min="0" value="">
+      </div>
+      <button type="button" class="btn" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
+    </form>
+  </main>  <script>
+    function enviarPedido() {
+      const form = document.getElementById('pedidoForm');
+      let mensagem = '*Pedido - Tacacá Mania*%0A';
+      let temPedido = false;
+
+      for (let i = 0; i < form.elements.length; i++) {
+        const el = form.elements[i];
+        if (el.type === 'number' && el.value > 0) {
+          mensagem += `- ${el.name}: ${el.value}%0A`;
+          temPedido = true;
+        }
+      }
+
+      if (!temPedido) {
+        alert("Escolha pelo menos um item antes de enviar o pedido.");
+        return;
+      }
+
+      const numero = '5591980499217'; // Substituir pelo número real com DDD e código do país
+      const url = `https://wa.me/${numero}?text=${mensagem}`;
+      window.open(url, '_blank');
+    }
+  </script></body>
+</html>
