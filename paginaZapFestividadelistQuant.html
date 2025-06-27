@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pedido - Tacacá Mania</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #fefae0;
+    }
+    h1 {
+      text-align: center;
+      color: #7b2d26;
+    }
+    label {
+      font-weight: bold;
+    }
+    .item {
+      margin-bottom: 10px;
+    }
+    input[type="number"] {
+      width: 50px;
+      padding: 3px;
+    }
+    button {
+      background-color: #7b2d26;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5a1f1b;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 Pedido - Tacacá Mania</h1>
+  <form id="formulario">
+    <label>Seu nome:</label><br />
+    <input type="text" id="nome" required /><br /><br />
+
+    <div class="item">
+      Tacacá (R$12): <input type="number" min="0" value="0" id="qtd_tacaca" />
+    </div>
+    <div class="item">
+      Espetinho de Frango (R$5): <input type="number" min="0" value="0" id="qtd_espetinho" />
+    </div>
+    <div class="item">
+      Refrigerante Lata (R$6): <input type="number" min="0" value="0" id="qtd_refri" />
+    </div>
+    <div class="item">
+      Vatapá (R$8): <input type="number" min="0" value="0" id="qtd_vatapa" />
+    </div>
+    <div class="item">
+      Bolo de Macaxeira (R$5): <input type="number" min="0" value="0" id="qtd_bolo" />
+    </div>
+
+    <br />
+    <button type="button" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
+  </form>
+
+  <script>
+    function enviarPedido() {
+      const nome = document.getElementById("nome").value.trim();
+      const telefone = "5591980499217"; // Substitua com o número real do atendente
+
+      if (!nome) {
+        alert("Por favor, digite seu nome.");
+        return;
+      }
+
+      const precos = {
+        tacaca: 12,
+        espetinho: 5,
+        refri: 6,
+        vatapa: 8,
+        bolo: 5
+      };
+
+      const qtds = {
+        tacaca: parseInt(document.getElementById("qtd_tacaca").value),
+        espetinho: parseInt(document.getElementById("qtd_espetinho").value),
+        refri: parseInt(document.getElementById("qtd_refri").value),
+        vatapa: parseInt(document.getElementById("qtd_vatapa").value),
+        bolo: parseInt(document.getElementById("qtd_bolo").value)
+      };
+
+      let mensagem = `🌴 TACACÁ MANIA\n----------------------------\n👤 Cliente: ${nome}\n\n🍽️ Itens:\n`;
+      let total = 0;
+
+      for (let item in qtds) {
+        if (qtds[item] > 0) {
+          const valor = qtds[item] * precos[item];
+          mensagem += `✅ ${capitalize(item)} — ${qtds[item]}x = R$${valor.toFixed(2)}\n`;
+          total += valor;
+        }
+      }
+
+      if (total === 0) {
+        alert("Selecione ao menos um item.");
+        return;
+      }
+
+      mensagem += `----------------------------\n💰 Total: R$${total.toFixed(2)}\n\n📍 Retirada: Balcão\n🙏 Obrigado!`;
+
+      const link = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+      window.open(link, '_blank');
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).replace(/_/g, " ");
+    }
+  </script>
+</body>
+</html>
