@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cardápio Interativo</title>
   <style>
-    body {
+    /* ... Seu CSS permanece igual ... */
+	body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 10px;
@@ -119,52 +120,56 @@
   <div id="comidas" class="categoria">
     <div class="item">
       <label><input type="checkbox" data-preco="18" onchange="atualizarPedido()"> X-Burguer - R$18,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="30" onchange="atualizarPedido()"> Pizza - R$30,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="25" onchange="atualizarPedido()"> Lasanha - R$25,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
   </div>
 
-  <div id="bebidas" class="categoria">
+  <div id="bebidas" class="categoria" style="display:none;">
     <div class="item">
       <label><input type="checkbox" data-preco="6" onchange="atualizarPedido()"> Coca-Cola - R$6,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Suco Natural - R$5,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="3" onchange="atualizarPedido()"> Água Mineral - R$3,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
   </div>
 
-  <div id="doces" class="categoria">
+  <div id="doces" class="categoria" style="display:none;">
     <div class="item">
       <label><input type="checkbox" data-preco="4" onchange="atualizarPedido()"> Pudim - R$4,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="2" onchange="atualizarPedido()"> Brigadeiro - R$2,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
     <div class="item">
       <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Bolo de Cenoura - R$5,00</label>
-      <input type="number" min="1" value="1" disabled />
+      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
     </div>
   </div>
 
   <div class="pedido" id="pedido">
     <h2>Pedido:</h2>
     <ul id="listaPedido"></ul>
-    <p><strong>Total: R$ <span id="valorTotal">0,00</span></strong></p>
+    <p><strong>Total: R$ <span id="valorTotal">0.00</span></strong></p>
+    <label for="valorPago">Valor Pago: R$</label>
+    <input type="number" id="valorPago" placeholder="0.00" step="0.01" oninput="calcularTroco()" />
+
+    <p><strong>Troco: R$ <span id="valorTroco">0.00</span></strong></p>
   </div>
 
   <div class="acoes">
@@ -173,6 +178,9 @@
   </div>
 
   <script>
+    // Mostrar categoria padrão ao carregar página
+    mostrarCategoria('comidas');
+
     function mostrarCategoria(cat) {
       document.querySelectorAll('.categoria').forEach(div => div.style.display = 'none');
       document.getElementById(cat).style.display = 'block';
@@ -190,22 +198,23 @@
 
         if (checkbox.checked) {
           quantidadeInput.disabled = false;
-          quantidadeInput.oninput = atualizarPedido;
 
           const qtd = parseInt(quantidadeInput.value) || 1;
           const valorItem = qtd * preco;
           total += valorItem;
 
           const li = document.createElement('li');
-          li.textContent = `${checkbox.parentNode.textContent.trim()} x${qtd} - R$ ${valorItem.toFixed(2)}`;
+          // Pega só o texto da label, sem o input checkbox
+          const texto = checkbox.parentNode.textContent.trim().replace(/\s*x\d+.*$/, '');
+          li.textContent = `${texto} x${qtd} - R$ ${valorItem.toFixed(2)}`;
           lista.appendChild(li);
         } else {
           quantidadeInput.disabled = true;
-          quantidadeInput.oninput = null;
         }
       });
 
       document.getElementById('valorTotal').textContent = total.toFixed(2);
+      calcularTroco();
     }
 
     function enviarWhatsApp() {
@@ -221,13 +230,22 @@
           const qtd = parseInt(quantidadeInput.value) || 1;
           const valor = qtd * preco;
           total += valor;
-          mensagem += `- ${checkbox.parentNode.textContent.trim()} x${qtd} = R$ ${valor.toFixed(2)}%0A`;
+          const texto = checkbox.parentNode.textContent.trim().replace(/\s*x\d+.*$/, '');
+          mensagem += `- ${texto} x${qtd} = R$ ${valor.toFixed(2)}%0A`;
         }
       });
 
       mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
-      const telefone = '5591980499217'; // Altere aqui
+      const telefone = '5591980499217'; // Alterar para seu número
       window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
+    }
+
+    function calcularTroco() {
+      const total = parseFloat(document.getElementById('valorTotal').textContent) || 0;
+      const pago = parseFloat(document.getElementById('valorPago').value) || 0;
+      const troco = pago - total;
+
+      document.getElementById('valorTroco').textContent = troco > 0 ? troco.toFixed(2) : '0.00';
     }
   </script>
 
