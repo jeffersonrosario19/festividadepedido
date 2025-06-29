@@ -1,122 +1,301 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedido - Tacacá Mania</title>
+  <title>Cardápio</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #fefae0;
+      font-family: Verdana, sans-serif;
+      background-color: #eee;
+      color: #333;
+      margin: 1em;
+      padding: 0;
     }
-    h1 {
+    header {
+      background: #84716B;
+      color: white;
+      padding: 1.5rem;
       text-align: center;
-      color: #7b2d26;
     }
-    label {
-      font-weight: bold;
+    header h2, header h3, header p {
+      margin: 0.5rem 0;
+    }
+    main {
+      padding: 1rem;
+    }
+    .intro {
+      font-size: 1.1rem;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .categoria {
+      margin-top: 2rem;
+    }
+    .categoria h4 {
+      font-size: 1.5rem;
+      color: #F12525;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
     }
     .item {
-      margin-bottom: 10px;
+      background-color: white;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
-    input[type="number"] {
-      width: 50px;
-      padding: 3px;
+    .item label {
+      display: block;
+      font-weight: 600;
     }
-    button {
-      background-color: #7b2d26;
+    .quantidade {
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .quantidade label {
+      font-weight: normal;
+      margin-right: 0.5rem;
+    }
+    .quantidade input {
+      width: 60px;
+    }
+    .btn {
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem;
+      font-size: 1.1rem;
+      background: linear-gradient(to right, #a97451, #d4af7f);
       color: white;
-      padding: 10px 20px;
       border: none;
-      font-size: 16px;
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
+      width: 90%;
+      max-width: 320px;
+      transition: background 0.3s;
     }
-    button:hover {
-      background-color: #5a1f1b;
+    .btn:hover {
+      background: linear-gradient(to right, #d4af7f, #a97451);
+    }
+    #impressao {
+      display: none;
+      white-space: pre-wrap;
+      font-size: 12px;
+      margin-top: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    input::placeholder {
+      margin-left: 10px;
+    }
+    .final-msg {
+      text-align: center;
+      margin-top: 2rem;
+      font-style: italic;
+      color: #444;
+    }
+    .total {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #impressao, #impressao * {
+        visibility: visible;
+      }
+      #impressao {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      .quantidade input {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>📋 Pedido - Tacacá Mania</h1>
-  <form id="formulario">
-    <label>Seu nome:</label><br />
-    <input type="text" id="nome" required /><br /><br />
+  <header>
+    <h2>Arraial de São Francisco de Assis</h2>
+    <h3>Cardápio</h3>
+  </header>
+  <main>
+    <form id="pedidoForm">
+      <input type="text" id="nomeCliente" placeholder="Digite seu nome">
+      <div class="intro">Escolha o item abaixo:</div>
 
-    <div class="item">
-      Tacacá (R$12): <input type="number" min="0" value="0" id="qtd_tacaca" />
-    </div>
-    <div class="item">
-      Espetinho de Frango (R$5): <input type="number" min="0" value="0" id="qtd_espetinho" />
-    </div>
-    <div class="item">
-      Refrigerante Lata (R$6): <input type="number" min="0" value="0" id="qtd_refri" />
-    </div>
-    <div class="item">
-      Vatapá (R$8): <input type="number" min="0" value="0" id="qtd_vatapa" />
-    </div>
-    <div class="item">
-      Bolo de Macaxeira (R$5): <input type="number" min="0" value="0" id="qtd_bolo" />
-    </div>
+      <div class="categoria">
+        <h4>Comidas</h4>
+        <div class="item">
+          <label><input type="checkbox" name="Tacacá" value="15" onchange="toggleQuantidade(this)"> Tacacá - R$ 15,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Tacacá" min="1" value="1">
+          </div>
+        </div>
+        <div class="item">
+          <label><input type="checkbox" name="Maniçoba" value="18" onchange="toggleQuantidade(this)"> Maniçoba - R$ 18,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Maniçoba" min="1" value="1">
+          </div>
+        </div>
+        <div class="item">
+          <label><input type="checkbox" name="Vatapá" value="12" onchange="toggleQuantidade(this)"> Vatapá - R$ 12,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Vatapá" min="1" value="1">
+          </div>
+        </div>
+      </div>
 
-    <br />
-    <button type="button" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
-  </form>
+      <div class="categoria">
+        <h4>Bebidas</h4>
+        <div class="item">
+          <label><input type="checkbox" name="Suco Natural" value="6" onchange="toggleQuantidade(this)"> Suco Natural - R$ 6,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Suco Natural" min="1" value="1">
+          </div>
+        </div>
+        <div class="item">
+          <label><input type="checkbox" name="Refrigerante" value="5" onchange="toggleQuantidade(this)"> Refrigerante - R$ 5,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Refrigerante" min="1" value="1">
+          </div>
+        </div>
+      </div>
 
+      <div class="categoria">
+        <h4>Doces</h4>
+        <div class="item">
+          <label><input type="checkbox" name="Pudim" value="7" onchange="toggleQuantidade(this)"> Pudim - R$ 7,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Pudim" min="1" value="1">
+          </div>
+        </div>
+        <div class="item">
+          <label><input type="checkbox" name="Bolo de macaxeira" value="8" onchange="toggleQuantidade(this)"> Bolo de macaxeira - R$ 8,00</label>
+          <div class="quantidade">
+            <label>Quantidade:</label>
+            <input type="number" name="quant_Bolo de macaxeira" min="1" value="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="total" id="totalPedido">Total: R$ 0,00</div>
+
+      <button type="button" class="btn" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
+      <button type="button" class="btn" onclick="imprimirPedido()">Imprimir Pedido</button>
+    </form>
+
+    <div class="final-msg">Retire seu pedido na barraca ao lado.</div>
+    <div id="impressao"></div>
+  </main>
   <script>
-    function enviarPedido() {
-      const nome = document.getElementById("nome").value.trim();
-      const telefone = "5591980499217"; // Substitua com o número real do atendente
+    function toggleQuantidade(checkbox) {
+      const quantidadeDiv = checkbox.closest('.item').querySelector('.quantidade');
+      quantidadeDiv.style.display = checkbox.checked ? 'block' : 'none';
+      calcularTotal();
+    }
 
-      if (!nome) {
-        alert("Por favor, digite seu nome.");
-        return;
-      }
+    document.querySelectorAll("input[type='number']").forEach(input => {
+      input.addEventListener('input', calcularTotal);
+    });
 
-      const precos = {
-        tacaca: 12,
-        espetinho: 5,
-        refri: 6,
-        vatapa: 8,
-        bolo: 5
-      };
-
-      const qtds = {
-        tacaca: parseInt(document.getElementById("qtd_tacaca").value),
-        espetinho: parseInt(document.getElementById("qtd_espetinho").value),
-        refri: parseInt(document.getElementById("qtd_refri").value),
-        vatapa: parseInt(document.getElementById("qtd_vatapa").value),
-        bolo: parseInt(document.getElementById("qtd_bolo").value)
-      };
-
-      let mensagem = `🌴 TACACÁ MANIA\n----------------------------\n👤 Cliente: ${nome}\n\n🍽️ Itens:\n`;
+    function calcularTotal() {
+      const form = document.getElementById('pedidoForm');
       let total = 0;
 
-      for (let item in qtds) {
-        if (qtds[item] > 0) {
-          const valor = qtds[item] * precos[item];
-          mensagem += `✅ ${capitalize(item)} — ${qtds[item]}x = R$${valor.toFixed(2)}\n`;
-          total += valor;
+      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
+        if (checkbox.checked) {
+          const preco = parseFloat(checkbox.value);
+          const quantidade = parseInt(form.querySelector(`input[name='quant_${checkbox.name}']`).value) || 1;
+          total += preco * quantidade;
+        }
+      }
+      document.getElementById("totalPedido").innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function enviarPedido() {
+      const form = document.getElementById('pedidoForm');
+      let nome = document.getElementById('nomeCliente').value.trim();
+      let mensagem = '*Pedido - Arraial de São Francisco de Assis*%0A';
+      if (nome) mensagem += `Cliente: ${nome}%0A`;
+      let total = 0;
+      let temPedido = false;
+
+      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
+        if (checkbox.checked) {
+          const nomeItem = checkbox.name;
+          const preco = parseFloat(checkbox.value);
+          const quantidade = form.querySelector(`input[name='quant_${nomeItem}']`).value;
+          const subtotal = preco * quantidade;
+          mensagem += `- ${nomeItem}: ${quantidade} (R$ ${subtotal.toFixed(2).replace('.', ',')})%0A`;
+          total += subtotal;
+          temPedido = true;
         }
       }
 
-      if (total === 0) {
-        alert("Selecione ao menos um item.");
+      if (!temPedido) {
+        alert("Escolha pelo menos um item antes de enviar o pedido.");
         return;
       }
 
-      mensagem += `----------------------------\n💰 Total: R$${total.toFixed(2)}\n\n📍 Retirada: Balcão\n🙏 Obrigado!`;
+      mensagem += `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
 
-      const link = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
-      window.open(link, '_blank');
+      const numero = '5591980499217';
+      const url = `https://wa.me/${numero}?text=${mensagem}`;
+      window.open(url, '_blank');
     }
 
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1).replace(/_/g, " ");
+    function imprimirPedido() {
+      const form = document.getElementById('pedidoForm');
+      let nome = document.getElementById('nomeCliente').value.trim();
+      let texto = "Arraial de São Francisco de Assis\nCardápio\nRetire na barraca ao lado\n-------------------------\n";
+      if (nome) texto += `Cliente: ${nome}\n`;
+      let total = 0;
+      let temPedido = false;
+
+      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
+        if (checkbox.checked) {
+          const nomeItem = checkbox.name;
+          const preco = parseFloat(checkbox.value);
+          const quantidade = form.querySelector(`input[name='quant_${nomeItem}']`).value;
+          const subtotal = preco * quantidade;
+          texto += `${nomeItem}: ${quantidade} (R$ ${subtotal.toFixed(2).replace('.', ',')})\n`;
+          total += subtotal;
+          temPedido = true;
+        }
+      }
+
+      if (!temPedido) {
+        alert("Escolha pelo menos um item antes de imprimir o pedido.");
+        return;
+      }
+
+      texto += `-------------------------\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\nHorário: ` + new Date().toLocaleTimeString();
+      document.getElementById("impressao").innerText = texto;
+      document.getElementById("impressao").style.display = "block";
+      window.print();
     }
   </script>
-  <a href="index2.html">index</a>
-  <a href="pagina.html">pagina</a>
 </body>
 </html>
