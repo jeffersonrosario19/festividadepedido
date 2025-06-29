@@ -1,301 +1,235 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cardápio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cardápio Interativo</title>
   <style>
     body {
-      font-family: Verdana, sans-serif;
-      background-color: #eee;
-      color: #333;
-      margin: 1em;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+      background-color: #f4f4f4;
     }
-    header {
-      background: #84716B;
-      color: white;
-      padding: 1.5rem;
+
+    h1 {
       text-align: center;
     }
-    header h2, header h3, header p {
-      margin: 0.5rem 0;
+
+    .categorias {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+      flex-wrap: wrap;
     }
-    main {
-      padding: 1rem;
-    }
-    .intro {
-      font-size: 1.1rem;
-      margin: 1rem 0;
-      text-align: center;
-    }
-    .categoria {
-      margin-top: 2rem;
-    }
-    .categoria h4 {
-      font-size: 1.5rem;
-      color: #F12525;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 0.5rem;
-    }
-    .item {
-      background-color: white;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-    }
-    .item label {
-      display: block;
-      font-weight: 600;
-    }
-    .quantidade {
-      margin-top: 0.5rem;
-      display: none;
-    }
-    .quantidade label {
-      font-weight: normal;
-      margin-right: 0.5rem;
-    }
-    .quantidade input {
-      width: 60px;
-    }
-    .btn {
-      display: block;
-      margin: 1rem auto;
-      padding: 1rem;
-      font-size: 1.1rem;
-      background: linear-gradient(to right, #a97451, #d4af7f);
-      color: white;
+
+    .categorias button {
+      padding: 10px 15px;
+      margin: 5px;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 90%;
-      max-width: 320px;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background: linear-gradient(to right, #d4af7f, #a97451);
-    }
-    #impressao {
-      display: none;
-      white-space: pre-wrap;
-      font-size: 12px;
-      margin-top: 1rem;
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 1rem;
+      background: #2196f3;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
     }
-    input::placeholder {
-      margin-left: 10px;
+
+    .categoria {
+      display: none;
+      margin-top: 10px;
     }
-    .final-msg {
-      text-align: center;
-      margin-top: 2rem;
-      font-style: italic;
-      color: #444;
+
+    .item {
+      background: white;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
-    .total {
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-top: 1rem;
+
+    .item label {
+      flex: 1;
     }
+
+    .item input[type="number"] {
+      width: 60px;
+      padding: 5px;
+    }
+
+    .pedido {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .pedido h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .acoes {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .acoes button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .print {
+      background: #4caf50;
+      color: white;
+    }
+
+    .whats {
+      background: #25d366;
+      color: white;
+    }
+
     @media print {
       body * {
-        visibility: hidden;
+        display: none;
       }
-      #impressao, #impressao * {
-        visibility: visible;
-      }
-      #impressao {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-    }
-    @media (max-width: 600px) {
-      .quantidade input {
-        width: 100%;
+      .pedido, .pedido * {
+        display: block !important;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Arraial de São Francisco de Assis</h2>
-    <h3>Cardápio</h3>
-  </header>
-  <main>
-    <form id="pedidoForm">
-      <input type="text" id="nomeCliente" placeholder="Digite seu nome">
-      <div class="intro">Escolha o item abaixo:</div>
 
-      <div class="categoria">
-        <h4>Comidas</h4>
-        <div class="item">
-          <label><input type="checkbox" name="Tacacá" value="15" onchange="toggleQuantidade(this)"> Tacacá - R$ 15,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Tacacá" min="1" value="1">
-          </div>
-        </div>
-        <div class="item">
-          <label><input type="checkbox" name="Maniçoba" value="18" onchange="toggleQuantidade(this)"> Maniçoba - R$ 18,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Maniçoba" min="1" value="1">
-          </div>
-        </div>
-        <div class="item">
-          <label><input type="checkbox" name="Vatapá" value="12" onchange="toggleQuantidade(this)"> Vatapá - R$ 12,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Vatapá" min="1" value="1">
-          </div>
-        </div>
-      </div>
+  <h1>Cardápio Interativo</h1>
 
-      <div class="categoria">
-        <h4>Bebidas</h4>
-        <div class="item">
-          <label><input type="checkbox" name="Suco Natural" value="6" onchange="toggleQuantidade(this)"> Suco Natural - R$ 6,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Suco Natural" min="1" value="1">
-          </div>
-        </div>
-        <div class="item">
-          <label><input type="checkbox" name="Refrigerante" value="5" onchange="toggleQuantidade(this)"> Refrigerante - R$ 5,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Refrigerante" min="1" value="1">
-          </div>
-        </div>
-      </div>
+  <div class="categorias">
+    <button onclick="mostrarCategoria('comidas')">Comidas</button>
+    <button onclick="mostrarCategoria('bebidas')">Bebidas</button>
+    <button onclick="mostrarCategoria('doces')">Doces</button>
+  </div>
 
-      <div class="categoria">
-        <h4>Doces</h4>
-        <div class="item">
-          <label><input type="checkbox" name="Pudim" value="7" onchange="toggleQuantidade(this)"> Pudim - R$ 7,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Pudim" min="1" value="1">
-          </div>
-        </div>
-        <div class="item">
-          <label><input type="checkbox" name="Bolo de macaxeira" value="8" onchange="toggleQuantidade(this)"> Bolo de macaxeira - R$ 8,00</label>
-          <div class="quantidade">
-            <label>Quantidade:</label>
-            <input type="number" name="quant_Bolo de macaxeira" min="1" value="1">
-          </div>
-        </div>
-      </div>
+  <div id="comidas" class="categoria">
+    <div class="item">
+      <label><input type="checkbox" data-preco="18" onchange="atualizarPedido()"> X-Burguer - R$18,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="30" onchange="atualizarPedido()"> Pizza - R$30,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="25" onchange="atualizarPedido()"> Lasanha - R$25,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+  </div>
 
-      <div class="total" id="totalPedido">Total: R$ 0,00</div>
+  <div id="bebidas" class="categoria">
+    <div class="item">
+      <label><input type="checkbox" data-preco="6" onchange="atualizarPedido()"> Coca-Cola - R$6,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Suco Natural - R$5,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="3" onchange="atualizarPedido()"> Água Mineral - R$3,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+  </div>
 
-      <button type="button" class="btn" onclick="enviarPedido()">Enviar Pedido via WhatsApp</button>
-      <button type="button" class="btn" onclick="imprimirPedido()">Imprimir Pedido</button>
-    </form>
+  <div id="doces" class="categoria">
+    <div class="item">
+      <label><input type="checkbox" data-preco="4" onchange="atualizarPedido()"> Pudim - R$4,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="2" onchange="atualizarPedido()"> Brigadeiro - R$2,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+    <div class="item">
+      <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Bolo de Cenoura - R$5,00</label>
+      <input type="number" min="1" value="1" disabled />
+    </div>
+  </div>
 
-    <div class="final-msg">Retire seu pedido na barraca ao lado.</div>
-    <div id="impressao"></div>
-  </main>
+  <div class="pedido" id="pedido">
+    <h2>Pedido:</h2>
+    <ul id="listaPedido"></ul>
+    <p><strong>Total: R$ <span id="valorTotal">0,00</span></strong></p>
+  </div>
+
+  <div class="acoes">
+    <button class="print" onclick="window.print()">Imprimir Pedido</button>
+    <button class="whats" onclick="enviarWhatsApp()">Pedir via WhatsApp</button>
+  </div>
+
   <script>
-    function toggleQuantidade(checkbox) {
-      const quantidadeDiv = checkbox.closest('.item').querySelector('.quantidade');
-      quantidadeDiv.style.display = checkbox.checked ? 'block' : 'none';
-      calcularTotal();
+    function mostrarCategoria(cat) {
+      document.querySelectorAll('.categoria').forEach(div => div.style.display = 'none');
+      document.getElementById(cat).style.display = 'block';
     }
 
-    document.querySelectorAll("input[type='number']").forEach(input => {
-      input.addEventListener('input', calcularTotal);
-    });
-
-    function calcularTotal() {
-      const form = document.getElementById('pedidoForm');
+    function atualizarPedido() {
+      const lista = document.getElementById('listaPedido');
+      lista.innerHTML = '';
       let total = 0;
 
-      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
+      document.querySelectorAll('.item').forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const quantidadeInput = item.querySelector('input[type="number"]');
+        const preco = parseFloat(checkbox.getAttribute('data-preco'));
+
         if (checkbox.checked) {
-          const preco = parseFloat(checkbox.value);
-          const quantidade = parseInt(form.querySelector(`input[name='quant_${checkbox.name}']`).value) || 1;
-          total += preco * quantidade;
+          quantidadeInput.disabled = false;
+          quantidadeInput.oninput = atualizarPedido;
+
+          const qtd = parseInt(quantidadeInput.value) || 1;
+          const valorItem = qtd * preco;
+          total += valorItem;
+
+          const li = document.createElement('li');
+          li.textContent = `${checkbox.parentNode.textContent.trim()} x${qtd} - R$ ${valorItem.toFixed(2)}`;
+          lista.appendChild(li);
+        } else {
+          quantidadeInput.disabled = true;
+          quantidadeInput.oninput = null;
         }
-      }
-      document.getElementById("totalPedido").innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+      });
+
+      document.getElementById('valorTotal').textContent = total.toFixed(2);
     }
 
-    function enviarPedido() {
-      const form = document.getElementById('pedidoForm');
-      let nome = document.getElementById('nomeCliente').value.trim();
-      let mensagem = '*Pedido - Arraial de São Francisco de Assis*%0A';
-      if (nome) mensagem += `Cliente: ${nome}%0A`;
+    function enviarWhatsApp() {
+      let mensagem = "Olá, gostaria de fazer o seguinte pedido:%0A";
       let total = 0;
-      let temPedido = false;
 
-      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
+      document.querySelectorAll('.item').forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const quantidadeInput = item.querySelector('input[type="number"]');
+        const preco = parseFloat(checkbox.getAttribute('data-preco'));
+
         if (checkbox.checked) {
-          const nomeItem = checkbox.name;
-          const preco = parseFloat(checkbox.value);
-          const quantidade = form.querySelector(`input[name='quant_${nomeItem}']`).value;
-          const subtotal = preco * quantidade;
-          mensagem += `- ${nomeItem}: ${quantidade} (R$ ${subtotal.toFixed(2).replace('.', ',')})%0A`;
-          total += subtotal;
-          temPedido = true;
+          const qtd = parseInt(quantidadeInput.value) || 1;
+          const valor = qtd * preco;
+          total += valor;
+          mensagem += `- ${checkbox.parentNode.textContent.trim()} x${qtd} = R$ ${valor.toFixed(2)}%0A`;
         }
-      }
+      });
 
-      if (!temPedido) {
-        alert("Escolha pelo menos um item antes de enviar o pedido.");
-        return;
-      }
-
-      mensagem += `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-
-      const numero = '5591980499217';
-      const url = `https://wa.me/${numero}?text=${mensagem}`;
-      window.open(url, '_blank');
-    }
-
-    function imprimirPedido() {
-      const form = document.getElementById('pedidoForm');
-      let nome = document.getElementById('nomeCliente').value.trim();
-      let texto = "Arraial de São Francisco de Assis\nCardápio\nRetire na barraca ao lado\n-------------------------\n";
-      if (nome) texto += `Cliente: ${nome}\n`;
-      let total = 0;
-      let temPedido = false;
-
-      for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
-        if (checkbox.checked) {
-          const nomeItem = checkbox.name;
-          const preco = parseFloat(checkbox.value);
-          const quantidade = form.querySelector(`input[name='quant_${nomeItem}']`).value;
-          const subtotal = preco * quantidade;
-          texto += `${nomeItem}: ${quantidade} (R$ ${subtotal.toFixed(2).replace('.', ',')})\n`;
-          total += subtotal;
-          temPedido = true;
-        }
-      }
-
-      if (!temPedido) {
-        alert("Escolha pelo menos um item antes de imprimir o pedido.");
-        return;
-      }
-
-      texto += `-------------------------\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\nHorário: ` + new Date().toLocaleTimeString();
-      document.getElementById("impressao").innerText = texto;
-      document.getElementById("impressao").style.display = "block";
-      window.print();
+      mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
+      const telefone = '5599999999999'; // Altere aqui
+      window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
     }
   </script>
+
 </body>
 </html>
