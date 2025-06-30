@@ -2,252 +2,243 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cardápio Interativo</title>
   <style>
-    /* ... Seu CSS permanece igual ... */
-	body {
+    body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 10px;
-      background-color: #f4f4f4;
+      background: #f9f9f9;
+      margin: 20px;
     }
-
     h1 {
       text-align: center;
+      margin-bottom: 30px;
     }
-
-    .categorias {
-      display: flex;
-      justify-content: space-around;
-      margin: 10px 0;
-      flex-wrap: wrap;
+    ul.cardapio, ul#carrinho {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      padding: 0;
+      list-style: none;
     }
-
-    .categorias button {
-      padding: 10px 15px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      background: #2196f3;
-      color: white;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .categoria {
-      display: none;
-      margin-top: 10px;
-    }
-
-    .item {
+    ul.cardapio li, ul#carrinho li {
       background: white;
-      margin: 5px 0;
-      padding: 10px;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .item label {
-      flex: 1;
-    }
-
-    .item input[type="number"] {
-      width: 60px;
-      padding: 5px;
-    }
-
-    .pedido {
-      margin-top: 20px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 5px;
-    }
-
-    .pedido h2 {
-      font-size: 18px;
+      padding: 15px 20px;
       margin-bottom: 10px;
-    }
-
-    .acoes {
-      margin-top: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #ccc;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    .acoes button {
-      padding: 10px;
+    .info-prato {
+      max-width: 75%;
+    }
+    .nome-prato {
+      font-weight: bold;
+      font-size: 18px;
+      margin: 0 0 6px 0;
+    }
+    .descricao {
+      margin: 0;
+      color: #555;
+      font-size: 0.9em;
+    }
+    .preco {
+      font-weight: bold;
+      font-size: 16px;
+      color: #2a7a2a;
+    }
+    .botoes {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .botoes button {
+      margin: 5px;
+      padding: 10px 15px;
       font-size: 16px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
-
-    .print {
-      background: #4caf50;
+    #btnWhatsApp {
+      background-color: #25d366;
       color: white;
     }
-
-    .whats {
-      background: #25d366;
+    #btnPrint {
+      background-color: #333;
       color: white;
     }
-
-    @media print {
-      body * {
-        display: none;
-      }
-      .pedido, .pedido * {
-        display: block !important;
-      }
+    #tituloCarrinho {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      color: #444;
+    }
+    #totalPedido {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #2a7a2a;
+    }
+    .remover-btn {
+      margin-left: 10px;
+      color: red;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <h1>Cardápio Interativo</h1>
+<h1>Cardápio</h1>
 
-  <div class="categorias">
-    <button onclick="mostrarCategoria('comidas')">Comidas</button>
-    <button onclick="mostrarCategoria('bebidas')">Bebidas</button>
-    <button onclick="mostrarCategoria('doces')">Doces</button>
-  </div>
+<ul class="cardapio" id="listaCardapio"></ul>
 
-  <div id="comidas" class="categoria">
-    <div class="item">
-      <label><input type="checkbox" data-preco="18" onchange="atualizarPedido()"> X-Burguer - R$18,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="30" onchange="atualizarPedido()"> Pizza - R$30,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="25" onchange="atualizarPedido()"> Lasanha - R$25,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-  </div>
+<h2 id="tituloCarrinho">🛒 Itens Selecionados</h2>
+<ul id="carrinho"></ul>
 
-  <div id="bebidas" class="categoria" style="display:none;">
-    <div class="item">
-      <label><input type="checkbox" data-preco="6" onchange="atualizarPedido()"> Coca-Cola - R$6,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Suco Natural - R$5,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="3" onchange="atualizarPedido()"> Água Mineral - R$3,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-  </div>
+<p id="totalPedido">Total: R$ 0,00</p>
 
-  <div id="doces" class="categoria" style="display:none;">
-    <div class="item">
-      <label><input type="checkbox" data-preco="4" onchange="atualizarPedido()"> Pudim - R$4,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="2" onchange="atualizarPedido()"> Brigadeiro - R$2,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-    <div class="item">
-      <label><input type="checkbox" data-preco="5" onchange="atualizarPedido()"> Bolo de Cenoura - R$5,00</label>
-      <input type="number" min="1" value="1" disabled oninput="atualizarPedido()" />
-    </div>
-  </div>
+<div class="botoes">
+  <button id="btnWhatsApp">📲 Enviar via WhatsApp</button>
+  <button id="btnPrint">🖨️ Imprimir Pedido</button>
+</div>
 
-  <div class="pedido" id="pedido">
-    <h2>Pedido:</h2>
-    <ul id="listaPedido"></ul>
-    <p><strong>Total: R$ <span id="valorTotal">0.00</span></strong></p>
-    <label for="valorPago">Valor Pago: R$</label>
-    <input type="number" id="valorPago" placeholder="0.00" step="0.01" oninput="calcularTroco()" />
+<script>
+  const cardapio = [
+    { nome: 'Churrasco em espeto', descricao: 'Acompanha arroz e farofa.', preco: 25.00 },
+    { nome: 'Lasanha', descricao: 'Recheio de frango ou carne.', preco: 30.00 },
+    { nome: 'Água Mineral', descricao: 'Água é vida, sacie sua sede.', preco: 22.50 }
+  ];
 
-    <p><strong>Troco: R$ <span id="valorTroco">0.00</span></strong></p>
-  </div>
+  const pedido = [];
+  const lista = document.getElementById('listaCardapio');
+  const carrinho = document.getElementById('carrinho');
+  const totalPedido = document.getElementById('totalPedido');
 
-  <div class="acoes">
-    <button class="print" onclick="window.print()">Imprimir Pedido</button>
-    <button class="whats" onclick="enviarWhatsApp()">Pedir via WhatsApp</button>
-  </div>
+  function atualizarCarrinho() {
+    carrinho.innerHTML = '';
+    let total = 0;
 
-  <script>
-    // Mostrar categoria padrão ao carregar página
-    mostrarCategoria('comidas');
+    pedido.forEach((item, index) => {
+      const li = document.createElement('li');
+      const subtotal = item.preco * item.quantidade;
+      total += subtotal;
 
-    function mostrarCategoria(cat) {
-      document.querySelectorAll('.categoria').forEach(div => div.style.display = 'none');
-      document.getElementById(cat).style.display = 'block';
+      li.innerHTML = `
+        <span>${item.quantidade}x ${item.nome}</span>
+        <span>
+          R$ ${subtotal.toFixed(2)}
+          <button onclick="removerItem(${index})" class="remover-btn">❌</button>
+        </span>
+      `;
+      carrinho.appendChild(li);
+    });
+
+    totalPedido.innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+  }
+
+  function removerItem(index) {
+    pedido.splice(index, 1);
+    atualizarCarrinho();
+  }
+
+  cardapio.forEach((item) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <div class="info-prato">
+        <p class="nome-prato">${item.nome}</p>
+        <p class="descricao">${item.descricao}</p>
+      </div>
+      <div class="preco">R$ ${item.preco.toFixed(2)}</div>
+    `;
+    li.addEventListener('click', () => {
+      const qtd = prompt(`Quantos "${item.nome}" deseja adicionar?`);
+      const quantidade = parseInt(qtd);
+      if (!isNaN(quantidade) && quantidade > 0) {
+        pedido.push({ ...item, quantidade });
+        atualizarCarrinho();
+      }
+    });
+    lista.appendChild(li);
+  });
+
+  document.getElementById('btnWhatsApp').addEventListener('click', () => {
+    if (pedido.length === 0) {
+      alert('Não há itens no pedido para enviar.');
+      return;
     }
 
-    function atualizarPedido() {
-      const lista = document.getElementById('listaPedido');
-      lista.innerHTML = '';
-      let total = 0;
+    let mensagem = '*📋 Pedido Realizado:*\n\n';
+    let total = 0;
 
-      document.querySelectorAll('.item').forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const quantidadeInput = item.querySelector('input[type="number"]');
-        const preco = parseFloat(checkbox.getAttribute('data-preco'));
+    pedido.forEach(item => {
+      const subtotal = item.preco * item.quantidade;
+      mensagem += `🍽️ *${item.nome}*\n`;
+      mensagem += `Quantidade: ${item.quantidade}\n`;
+      mensagem += `Valor unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
+      mensagem += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
+      total += subtotal;
+    });
 
-        if (checkbox.checked) {
-          quantidadeInput.disabled = false;
+    mensagem += `🧾 *Total a pagar:* *R$ ${total.toFixed(2).replace('.', ',')}*`;
 
-          const qtd = parseInt(quantidadeInput.value) || 1;
-          const valorItem = qtd * preco;
-          total += valorItem;
+    const numeroWhatsApp = '5591980499217';
+    const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+    window.open(linkWhatsApp, '_blank');
+  });
 
-          const li = document.createElement('li');
-          // Pega só o texto da label, sem o input checkbox
-          const texto = checkbox.parentNode.textContent.trim().replace(/\s*x\d+.*$/, '');
-          li.textContent = `${texto} x${qtd} - R$ ${valorItem.toFixed(2)}`;
-          lista.appendChild(li);
-        } else {
-          quantidadeInput.disabled = true;
-        }
-      });
-
-      document.getElementById('valorTotal').textContent = total.toFixed(2);
-      calcularTroco();
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    if (pedido.length === 0) {
+      alert('Não há itens no pedido para imprimir.');
+      return;
     }
 
-    function enviarWhatsApp() {
-      let mensagem = "Olá, gostaria de fazer o seguinte pedido:%0A";
-      let total = 0;
+    let textoCupom = '';
+    textoCupom += '        PEDIDO\n';
+    textoCupom += '----------------------------------------\n';
+    textoCupom += 'ITEM                QTD  VL.UNIT  SUBTOTAL\n';
+    textoCupom += '----------------------------------------\n';
 
-      document.querySelectorAll('.item').forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const quantidadeInput = item.querySelector('input[type="number"]');
-        const preco = parseFloat(checkbox.getAttribute('data-preco'));
+    let total = 0;
+    pedido.forEach(item => {
+      const nome = item.nome.length > 18 ? item.nome.substring(0, 18) : item.nome.padEnd(18, ' ');
+      const qtd = item.quantidade.toString().padStart(3, ' ');
+      const precoUni = item.preco.toFixed(2).replace('.', ',').padStart(8, ' ');
+      const subtotal = (item.preco * item.quantidade).toFixed(2).replace('.', ',').padStart(8, ' ');
+      textoCupom += `${nome} ${qtd} ${precoUni} ${subtotal}\n`;
+      total += item.preco * item.quantidade;
+    });
 
-        if (checkbox.checked) {
-          const qtd = parseInt(quantidadeInput.value) || 1;
-          const valor = qtd * preco;
-          total += valor;
-          const texto = checkbox.parentNode.textContent.trim().replace(/\s*x\d+.*$/, '');
-          mensagem += `- ${texto} x${qtd} = R$ ${valor.toFixed(2)}%0A`;
-        }
-      });
+    textoCupom += '----------------------------------------\n';
+    textoCupom += `TOTAL: R$ ${total.toFixed(2).replace('.', ',')}\n\n\n`;
 
-      mensagem += `%0ATotal: R$ ${total.toFixed(2)}`;
-      const telefone = '5591980499217'; // Alterar para seu número
-      window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
-    }
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-    function calcularTroco() {
-      const total = parseFloat(document.getElementById('valorTotal').textContent) || 0;
-      const pago = parseFloat(document.getElementById('valorPago').value) || 0;
-      const troco = pago - total;
-
-      document.getElementById('valorTroco').textContent = troco > 0 ? troco.toFixed(2) : '0.00';
-    }
-  </script>
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+      <html>
+      <head><title>Impressão</title></head>
+      <body style="font-family: monospace; white-space: pre; font-size: 14px;">
+        <pre>${textoCupom}</pre>
+        <script>
+          window.onload = function() {
+            window.focus();
+            window.print();
+            setTimeout(() => window.close(), 500);
+          };
+        <\/script>
+      </body>
+      </html>
+    `);
+    doc.close();
+  });
+</script>
 
 </body>
 </html>
