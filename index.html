@@ -1,244 +1,124 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cardápio Interativo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cardápio Arraial de São Francisco</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 20px;
+      background-color: #dcdcdc;
+      color: #333;
+      padding: 1rem;
     }
-    h1 {
+
+    header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 1.5rem;
+	  background: #ffffff;
+	  border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
-    ul.cardapio, ul#carrinho {
-      max-width: 600px;
-      margin: 0 auto 20px;
-      padding: 0;
+
+    header img {
+      width: 80px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+      color: #fa2b2b;
+    }
+
+    section {
+      margin-bottom: 1.5rem;
+    }
+
+    section h2 {
+      background-color: #b9f8be;
+      padding: 0.5rem;
+      margin: 0;
+      font-size: 1.2rem;
+      border-left: 5px solid #00ff18;
+    }
+
+    ul {
       list-style: none;
+      padding: 0.5rem;
+      margin: 0;
+      background: #ffffff;
+      color: #212121;
+      border-radius: 6px;
     }
-    ul.cardapio li, ul#carrinho li {
-      background: white;
-      padding: 15px 20px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px #ccc;
+
+    li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #ccc;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      flex-wrap: wrap;
     }
-    .info-prato {
-      max-width: 75%;
-    }
-    .nome-prato {
+
+    li span {
       font-weight: bold;
-      font-size: 18px;
-      margin: 0 0 6px 0;
+      color: #00811d;
+      margin-left: auto;
     }
-    .descricao {
-      margin: 0;
-      color: #555;
-      font-size: 0.9em;
-    }
-    .preco {
-      font-weight: bold;
-      font-size: 16px;
-      color: #2a7a2a;
-    }
-    .botoes {
+
+    footer {
       text-align: center;
-      margin-top: 20px;
-    }
-    .botoes button {
-      margin: 5px;
-      padding: 10px 15px;
-      font-size: 16px;
-      border: none;
+      margin-top: 2rem;
+      background-color: #ffffff;
+      padding: 1rem;
       border-radius: 6px;
-      cursor: pointer;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
-    #btnWhatsApp {
-      background-color: #25d366;
-      color: white;
-    }
-    #btnPrint {
-      background-color: #333;
-      color: white;
-    }
-    #tituloCarrinho {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 20px;
-      color: #444;
-    }
-    #totalPedido {
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      color: #2a7a2a;
-    }
-    .remover-btn {
-      margin-left: 10px;
-      color: red;
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-    }
+
   </style>
 </head>
 <body>
 
-<h1>Cardápio</h1>
+  <header>
+    <img src="anot_pedido.png" alt="Ícone Cardápio">
+    <h1>Cardápio do Arraial de São Francisco de Assis</h1>
+  </header>
 
-<ul class="cardapio" id="listaCardapio"></ul>
+  <section>
+    <h2>Pratos Principais</h2>
+    <ul>
+      <li>Tacacá da Vó Maria <span>R$ 15,00</span></li>
+      <li>Vatapá do Norte <span>R$ 18,00</span></li>
+      <li>Caruru Festivo <span>R$ 17,00</span></li>
+      <li>Arroz de Marisco do Chico <span>R$ 22,00</span></li>
+      <li>Peixe Frito com Açaí <span>R$ 20,00</span></li>
+    </ul>
+  </section>
 
-<h2 id="tituloCarrinho">🛒 Itens Selecionados</h2>
-<ul id="carrinho"></ul>
+  <section>
+    <h2>Lanches & Petiscos</h2>
+    <ul>
+      <li>Pastel de Camarão <span>R$ 8,00</span></li>
+      <li>Coxinha de Caranguejo <span>R$ 7,00</span></li>
+      <li>Espetinho de Charque <span>R$ 10,00</span></li>
+      <li>Bolinho de Piracuí <span>R$ 5,00</span></li>
+    </ul>
+  </section>
 
-<p id="totalPedido">Total: R$ 0,00</p>
+  <section>
+    <h2>Bebidas & Sobremesas</h2>
+    <ul>
+      <li>Suco de Cupuaçu <span>R$ 6,00</span></li>
+      <li>Refrigerante Lata <span>R$ 5,00</span></li>
+      <li>Chopp de Taperebá <span>R$ 8,00</span></li>
+      <li>Mousse de Bacuri <span>R$ 7,00</span></li>
+    </ul>
+  </section>
 
-<div class="botoes">
-  <button id="btnWhatsApp">📲 Enviar via WhatsApp</button>
-  <button id="btnPrint">🖨️ Imprimir Pedido</button>
-</div>
-
-<script>
-  const cardapio = [
-    { nome: 'Churrasco em espeto', descricao: 'Acompanha arroz e farofa.', preco: 25.00 },
-    { nome: 'Lasanha', descricao: 'Recheio de frango ou carne.', preco: 30.00 },
-    { nome: 'Água Mineral', descricao: 'Água é vida, sacie sua sede.', preco: 22.50 }
-  ];
-
-  const pedido = [];
-  const lista = document.getElementById('listaCardapio');
-  const carrinho = document.getElementById('carrinho');
-  const totalPedido = document.getElementById('totalPedido');
-
-  function atualizarCarrinho() {
-    carrinho.innerHTML = '';
-    let total = 0;
-
-    pedido.forEach((item, index) => {
-      const li = document.createElement('li');
-      const subtotal = item.preco * item.quantidade;
-      total += subtotal;
-
-      li.innerHTML = `
-        <span>${item.quantidade}x ${item.nome}</span>
-        <span>
-          R$ ${subtotal.toFixed(2)}
-          <button onclick="removerItem(${index})" class="remover-btn">❌</button>
-        </span>
-      `;
-      carrinho.appendChild(li);
-    });
-
-    totalPedido.innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-  }
-
-  function removerItem(index) {
-    pedido.splice(index, 1);
-    atualizarCarrinho();
-  }
-
-  cardapio.forEach((item) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <div class="info-prato">
-        <p class="nome-prato">${item.nome}</p>
-        <p class="descricao">${item.descricao}</p>
-      </div>
-      <div class="preco">R$ ${item.preco.toFixed(2)}</div>
-    `;
-    li.addEventListener('click', () => {
-      const qtd = prompt(`Quantos "${item.nome}" deseja adicionar?`);
-      const quantidade = parseInt(qtd);
-      if (!isNaN(quantidade) && quantidade > 0) {
-        pedido.push({ ...item, quantidade });
-        atualizarCarrinho();
-      }
-    });
-    lista.appendChild(li);
-  });
-
-  document.getElementById('btnWhatsApp').addEventListener('click', () => {
-    if (pedido.length === 0) {
-      alert('Não há itens no pedido para enviar.');
-      return;
-    }
-
-    let mensagem = '*📋 Pedido Realizado:*\n\n';
-    let total = 0;
-
-    pedido.forEach(item => {
-      const subtotal = item.preco * item.quantidade;
-      mensagem += `🍽️ *${item.nome}*\n`;
-      mensagem += `Quantidade: ${item.quantidade}\n`;
-      mensagem += `Valor unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}\n`;
-      mensagem += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n\n`;
-      total += subtotal;
-    });
-
-    mensagem += `🧾 *Total a pagar:* *R$ ${total.toFixed(2).replace('.', ',')}*`;
-
-    const numeroWhatsApp = '5591980499217';
-    const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
-    window.open(linkWhatsApp, '_blank');
-  });
-
-  document.getElementById('btnPrint').addEventListener('click', () => {
-    if (pedido.length === 0) {
-      alert('Não há itens no pedido para imprimir.');
-      return;
-    }
-
-    let textoCupom = '';
-    textoCupom += '        PEDIDO\n';
-    textoCupom += '----------------------------------------\n';
-    textoCupom += 'ITEM                QTD  VL.UNIT  SUBTOTAL\n';
-    textoCupom += '----------------------------------------\n';
-
-    let total = 0;
-    pedido.forEach(item => {
-      const nome = item.nome.length > 18 ? item.nome.substring(0, 18) : item.nome.padEnd(18, ' ');
-      const qtd = item.quantidade.toString().padStart(3, ' ');
-      const precoUni = item.preco.toFixed(2).replace('.', ',').padStart(8, ' ');
-      const subtotal = (item.preco * item.quantidade).toFixed(2).replace('.', ',').padStart(8, ' ');
-      textoCupom += `${nome} ${qtd} ${precoUni} ${subtotal}\n`;
-      total += item.preco * item.quantidade;
-    });
-
-    textoCupom += '----------------------------------------\n';
-    textoCupom += `TOTAL: R$ ${total.toFixed(2).replace('.', ',')}\n\n\n`;
-
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(`
-      <html>
-      <head><title>Impressão</title></head>
-      <body style="font-family: monospace; white-space: pre; font-size: 14px;">
-        <pre>${textoCupom}</pre>
-        <script>
-          window.onload = function() {
-            window.focus();
-            window.print();
-            setTimeout(() => window.close(), 500);
-          };
-        <\/script>
-      </body>
-      </html>
-    `);
-    doc.close();
-  });
-</script>
+  <footer>
+    <p>&copy; 2025 Arraial de São Francisco. Todos os direitos reservados.</p>
+    <p>Contato: (91) 98049-9217</p>
+  </footer>
 
 </body>
 </html>
