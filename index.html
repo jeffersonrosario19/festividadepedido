@@ -1,274 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cardápio Garçom | Arraial São Francisco</title>
-<style>
-  body {
-    font-family: monospace, monospace;
-    background: #fff;
-    color: #000;
-    padding: 1rem;
-    margin: 0;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  h2 {
-    border-bottom: 2px solid #00811d;
-    padding-bottom: 0.3rem;
-    margin-top: 1.5rem;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-  }
-  th, td {
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
-  td.price {
-    text-align: right;
-    font-weight: bold;
-    color: #00811d;
-    white-space: nowrap;
-  }
-  input.qty, input#valorPago {
-    width: 60px;
-    text-align: center;
-    font-size: 1rem;
-  }
-  button {
-    background-color: #00811d;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    margin: 1rem 0.3rem 1rem 0;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  button:hover {
-    background-color: #006911;
-  }
-  #total, #troco {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-top: 0.5rem;
-  }
-  #pedidoResumo {
-    margin-top: 1rem;
-    padding: 0.8rem;
-    background: #f2f2f2;
-    border-radius: 6px;
-    white-space: pre-wrap;
-    font-family: monospace;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  label {
-    font-weight: bold;
-  }
-  .pagamento {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cardápio do Arraial de São Francisco</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #693a00;
+      padding: 1rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+	  background-color: #eeff28;
+	  color: #858f16;
+	  border-radius: 6px;
+    }
+    header img {
+      width: 80px;
+    }
+    h1 {
+      font-size: 2.0rem;
+      margin: 0.0rem 0;
+    }
+    section {
+      margin-bottom: 1.5rem;
+    }
+    section h2 {
+      background-color: #eeff28;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      border-left: 5px solid #d21031;
+    }
+    ul {
+      list-style: none;
+	  padding: 0.5rem;
+    }
+    li {
+	background-color: #fcffdc;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #eeff28;
+      display: flex;
+      justify-content: space-between;
+    }
+    li span {
+      font-weight: bold;
+      color: #858f16;
+    }
+	
+  </style>
 </head>
 <body>
 
-<h1>Cardápio para Garçom</h1>
+  <header>
+    <img src="icone.jpg" alt="Ícone Cardápio">
+    <h1>Cardápio do Arraial de São Francisco de Assis</h1>
+    <p>Seja bem vindo, estamos pronto para lhe atender!</p>
+	<p></p>
+  </header>
 
-<section>
-  <h2>Pratos Principais</h2>
-  <table>
-    <tbody>
-      <tr><td>Tacacá da Vó Maria</td><td class="price">R$ 15,00</td><td><input class="qty" type="number" min="0" value="0" data-price="15.00"></td></tr>
-      <tr><td>Vatapá do Norte</td><td class="price">R$ 18,00</td><td><input class="qty" type="number" min="0" value="0" data-price="18.00"></td></tr>
-      <tr><td>Caruru Festivo</td><td class="price">R$ 17,00</td><td><input class="qty" type="number" min="0" value="0" data-price="17.00"></td></tr>
-      <tr><td>Arroz de Marisco do Chico</td><td class="price">R$ 22,00</td><td><input class="qty" type="number" min="0" value="0" data-price="22.00"></td></tr>
-      <tr><td>Peixe Frito com Açaí</td><td class="price">R$ 20,00</td><td><input class="qty" type="number" min="0" value="0" data-price="20.00"></td></tr>
-    </tbody>
-  </table>
-</section>
+  <section>
+    <h2>Pratos Principais</h2>
+    <ul>
+      <li>Tacacá <span>R$ 11,00</span></li>
+      <li>Vatapá <span>R$ 8,00</span></li>
+      <li>Arroz com galinha <span>R$ 6,00</span></li>
+      <li>Churrasco no espeto <span>R$ 11,00</span></li>
+      <li>Lasanha <span>R$ 8,00</span></li>
+    </ul>
+  </section>
 
-<section>
-  <h2>Lanches & Petiscos</h2>
-  <table>
-    <tbody>
-      <tr><td>Pastel de Camarão</td><td class="price">R$ 8,00</td><td><input class="qty" type="number" min="0" value="0" data-price="8.00"></td></tr>
-      <tr><td>Coxinha de Caranguejo</td><td class="price">R$ 7,00</td><td><input class="qty" type="number" min="0" value="0" data-price="7.00"></td></tr>
-      <tr><td>Espetinho de Charque</td><td class="price">R$ 10,00</td><td><input class="qty" type="number" min="0" value="0" data-price="10.00"></td></tr>
-      <tr><td>Bolinho de Piracuí</td><td class="price">R$ 5,00</td><td><input class="qty" type="number" min="0" value="0" data-price="5.00"></td></tr>
-    </tbody>
-  </table>
-</section>
+  <section>
+    <h2>Lanches & Doces</h2>
+    <ul>
+      <li>Pipoca <span>R$ 4,00</span></li>
+      <li>Coxinha de Frango <span>R$ 4,00</span></li>
+      <li>Pudim <span>R$ 7,00</span></li>
+      <li>Bolo simples <span>R$ 5,00</span></li>
+      <li>Bolo de chocolate <span>R$ 6,00</span></li>
+    </ul>
+  </section>
 
-<section>
-  <h2>Bebidas & Sobremesas</h2>
-  <table>
-    <tbody>
-      <tr><td>Suco de Cupuaçu</td><td class="price">R$ 6,00</td><td><input class="qty" type="number" min="0" value="0" data-price="6.00"></td></tr>
-      <tr><td>Refrigerante Lata</td><td class="price">R$ 5,00</td><td><input class="qty" type="number" min="0" value="0" data-price="5.00"></td></tr>
-      <tr><td>Chopp de Taperebá</td><td class="price">R$ 8,00</td><td><input class="qty" type="number" min="0" value="0" data-price="8.00"></td></tr>
-      <tr><td>Mousse de Bacuri</td><td class="price">R$ 7,00</td><td><input class="qty" type="number" min="0" value="0" data-price="7.00"></td></tr>
-    </tbody>
-  </table>
-</section>
-
-<div class="pagamento">
-  <label for="valorPago">Valor pago (R$): </label>
-  <input type="number" id="valorPago" min="0" step="0.01" value="0.00" />
-</div>
-
-<button id="calcTotalBtn">Calcular Total</button>
-<button id="gerarPedidoBtn">Gerar Cupom Fiscal</button>
-<button id="imprimirBtn">Imprimir Cupom</button>
-
-<div id="total">Total: R$ 0,00</div>
-<div id="troco">Troco: R$ 0,00</div>
-
-<pre id="pedidoResumo"></pre>
-
-<script>
-  const calcTotalBtn = document.getElementById('calcTotalBtn');
-  const gerarPedidoBtn = document.getElementById('gerarPedidoBtn');
-  const imprimirBtn = document.getElementById('imprimirBtn');
-  const totalEl = document.getElementById('total');
-  const trocoEl = document.getElementById('troco');
-  const pedidoResumoEl = document.getElementById('pedidoResumo');
-  const valorPagoInput = document.getElementById('valorPago');
-
-  function formatPreco(valor) {
-    return 'R$ ' + valor.toFixed(2).replace('.', ',');
-  }
-
-  let totalPedido = 0;
-
-  function calcularTotal() {
-    totalPedido = 0;
-    document.querySelectorAll('input.qty').forEach(input => {
-      const qtd = Number(input.value);
-      const preco = Number(input.dataset.price);
-      if(qtd > 0){
-        totalPedido += qtd * preco;
-      }
-    });
-    totalEl.textContent = 'Total: ' + formatPreco(totalPedido);
-    calcularTroco();
-  }
-
-  function calcularTroco() {
-    const valorPago = Number(valorPagoInput.value);
-    if(valorPago < totalPedido){
-      trocoEl.textContent = 'Troco: Valor pago menor que o total!';
-    } else {
-      const troco = valorPago - totalPedido;
-      trocoEl.textContent = 'Troco: ' + formatPreco(troco);
-    }
-  }
-
-  function gerarTextoCupom(pedidoItens, valorPago) {
-    const larguraLinha = 40; // caracteres por linha (ajuste conforme impressora)
-    const nomeMax = 25;      // espaço para nome do produto
-    const qtdMax = 4;
-    const precoMax = 9;
-
-    let cupom = "    ARRAIAL DE SÃO FRANCISCO\n";
-    cupom += "    Rua Principal, 123 - Bairro\n\n";
-    cupom += "-".repeat(larguraLinha) + "\n";
-    cupom += "Qtd ".padEnd(qtdMax) + " Produto".padEnd(nomeMax) + " Valor\n";
-    cupom += "-".repeat(larguraLinha) + "\n";
-
-    let total = 0;
-
-    pedidoItens.forEach(item => {
-      const subtotal = item.qtd * item.preco;
-      total += subtotal;
-
-      let qtdTxt = item.qtd.toString().padStart(qtdMax);
-      let nomeTxt = item.nome.length > nomeMax - 1 ? item.nome.slice(0, nomeMax - 4) + "..." : item.nome;
-      nomeTxt = nomeTxt.padEnd(nomeMax);
-
-      let precoTxt = ("R$ " + subtotal.toFixed(2).replace('.', ',')).padStart(precoMax);
-
-      cupom += `${qtdTxt} ${nomeTxt}${precoTxt}\n`;
-    });
-
-    cupom += "-".repeat(larguraLinha) + "\n";
-
-    let totalTxt = ("R$ " + total.toFixed(2).replace('.', ',')).padStart(precoMax);
-    cupom += "TOTAL:".padEnd(larguraLinha - precoMax) + totalTxt + "\n";
-
-    let pagoTxt = ("R$ " + valorPago.toFixed(2).replace('.', ',')).padStart(precoMax);
-    cupom += "PAGO:".padEnd(larguraLinha - precoMax) + pagoTxt + "\n";
-
-    let troco = valorPago - total;
-    let trocoTxt = (troco >= 0 ? ("R$ " + troco.toFixed(2).replace('.', ',')) : "R$ 0,00").padStart(precoMax);
-    cupom += "TROCO:".padEnd(larguraLinha - precoMax) + trocoTxt + "\n\n";
-
-    cupom += "Obrigado pela preferência!\n";
-
-    return cupom;
-  }
-
-  calcTotalBtn.addEventListener('click', () => {
-    calcularTotal();
-  });
-
-  valorPagoInput.addEventListener('input', () => {
-    calcularTroco();
-  });
-
-  gerarPedidoBtn.addEventListener('click', () => {
-    let pedidoItens = [];
-    document.querySelectorAll('input.qty').forEach(input => {
-      const qtd = Number(input.value);
-      if(qtd > 0){
-        const nome = input.closest('tr').children[0].textContent;
-        const preco = Number(input.dataset.price);
-        pedidoItens.push({qtd, nome, preco});
-      }
-    });
-    if(pedidoItens.length === 0){
-      pedidoResumoEl.textContent = 'Nenhum item selecionado.';
-    } else {
-      const valorPago = Number(valorPagoInput.value);
-      pedidoResumoEl.textContent = gerarTextoCupom(pedidoItens, valorPago);
-    }
-  });
-
-  imprimirBtn.addEventListener('click', () => {
-    if(pedidoResumoEl.textContent.trim() === '' || pedidoResumoEl.textContent.includes('Nenhum item')){
-      alert('Gere o cupom antes de imprimir.');
-      return;
-    }
-
-    const printWindow = window.open('', '', 'width=300,height=400');
-    printWindow.document.write(`
-      <html>
-      <head>
-        <title>Cupom Fiscal</title>
-        <style>
-          body { font-family: monospace; padding: 1rem; white-space: pre-wrap; }
-        </style>
-      </head>
-      <body>
-        <pre>${pedidoResumoEl.textContent}</pre>
-      </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-  });
-
-</script>
+  <section>
+    <h2>Bebidas & Sobremesas</h2>
+    <ul>
+      <li>Suco de Bacuri <span>R$ 6,00</span></li>
+      <li>Refrigerante Lata <span>R$ 5,00</span></li>
+      <li>Refrigerante 2 litros <span>R$ 8,00</span></li>
+      <li>Taça da Felicidade <span>R$ 7,00</span></li>
+      <li>Agua mineral 600ml <span>R$ 4,00</span></li>
+    </ul>
+  </section>
 
 </body>
 </html>
