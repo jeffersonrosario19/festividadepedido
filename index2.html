@@ -1,72 +1,163 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arraial de São Francisco de Assis - Cardapio</title>
+  <title>Comanda - Arraial de São Francisco</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #fff8f0;
+      margin: 0;
+      font-family: Verdana, sans-serif;
+      background-color: #556b2f;
+      color: #ffec00;
+      padding: 1rem;
     }
-    h1 {
-      color: #cc6600;
+    header, footer {
+      text-align: center;
+      background-color: #6b8e23;
+      color: #fffac8;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
     }
-    label {
-      display: block;
-      margin-top: 10px;
+    ul {
+      list-style: none;
+      padding: 0.5rem;
+      margin: 0;
+      background: #fff;
+      color: #212121;
+      border-radius: 6px;
     }
-    .btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #cc6600;
-      color: white;
-      border: none;
+    li {
+      padding: 0.4rem;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
       cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
     }
-    .btn:hover {
-      background-color: #aa5500;
+    li:hover {
+      background-color: #f0fff0;
+    }
+    button {
+      margin: 1rem 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    #comanda, #troco {
+      background: #fff;
+      color: #000;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+    @media print {
+      body *:not(#cupom):not(#cupom *) {
+        display: none;
+      }
+      #cupom {
+        margin: 0;
+        padding: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🌮 Arraial de São Francisco de Assis</h1>
-  <h1>Cardapio</h1>
-  <form id="pedidoForm">
-    <label><input type="checkbox" name="item" value="Tacacá R$12,00"> Tacacá - R$12,00</label>
-    <label><input type="checkbox" name="item" value="Vatapá R$10,00"> Vatapá - R$10,00</label>
-    <label><input type="checkbox" name="item" value="Maniçoba R$15,00"> Maniçoba - R$15,00</label>
-    <label><input type="checkbox" name="item" value="Caruru R$10,00"> Caruru - R$10,00</label><label><input type="checkbox" name="item" value="Espetinho de Carne R$6,00"> Espetinho de Carne - R$6,00</label>
-<label><input type="checkbox" name="item" value="Espetinho de Frango R$5,00"> Espetinho de Frango - R$5,00</label>
-<label><input type="checkbox" name="item" value="Espetinho de Queijo Coalho R$4,00"> Espetinho de Queijo Coalho - R$4,00</label>
 
-<label><input type="checkbox" name="item" value="Refrigerante Lata R$5,00"> Refrigerante Lata - R$5,00</label>
-<label><input type="checkbox" name="item" value="Suco Natural R$6,00"> Suco Natural - R$6,00</label>
-<label><input type="checkbox" name="item" value="Água Mineral R$3,00"> Água Mineral - R$3,00</label>
+<header>
+  <h1>Comanda do Garçom</h1>
+  <p>Toque em um item para adicionar</p>
+</header>
 
-<label style="margin-top:20px;">Nome do Cliente:<br>
-  <input type="text" id="nomeCliente" style="width:100%; padding:8px;">
-</label>
+<section>
+  <h2>Pratos</h2>
+  <ul id="cardapio">
+    <li data-nome="Tacacá" data-preco="11.00">Tacacá <span>R$ 11,00</span></li>
+    <li data-nome="Vatapá" data-preco="8.00">Vatapá <span>R$ 8,00</span></li>
+    <li data-nome="Arroz com galinha" data-preco="6.00">Arroz com galinha <span>R$ 6,00</span></li>
+    <li data-nome="Churrasco no espeto" data-preco="11.00">Churrasco no espeto <span>R$ 11,00</span></li>
+  </ul>
+</section>
 
-<button type="button" class="btn" onclick="enviarPedido()">Enviar pedido via WhatsApp</button>
+<div id="cupom" style="font-family: monospace; white-space: pre; font-size: 12px; line-height: 1.4; display: none;">
+===============================
+ ARRAIAL DE SÃO FRANCISCO
+      COMANDA DO CLIENTE
+===============================
+ITEM           QTD   VALOR
+-------------------------------
+</div>
 
-  </form>  <script>
-    function enviarPedido() {
-      const itens = document.querySelectorAll('input[name="item"]:checked');
-      const nome = document.getElementById("nomeCliente").value || "Não informado";
-      let mensagem = `📍 Pedido - Festividade de São Francisco de Assis\n\nCliente: ${nome}\nItens:\n`;
+<div id="comanda">
+  <h2>Comanda</h2>
+  <ul id="itensComanda"></ul>
+  <p><strong>Total:</strong> R$ <span id="total">0.00</span></p>
+</div>
 
-      itens.forEach(item => {
-        mensagem += `- ${item.value}\n`;
-      });
+<div id="troco">
+  <label>Valor recebido: R$ <input type="number" id="valorRecebido" step="0.01"></label>
+  <button onclick="calcularTroco()">Calcular Troco</button>
+  <p><strong>Troco:</strong> R$ <span id="valorTroco">0.00</span></p>
+</div>
 
-      mensagem += "\nRetirada na barraca de alimentação\n\nObrigado!";
+<button onclick="window.print()">🖨️ Imprimir Comanda</button>
 
-      const textoFinal = encodeURIComponent(mensagem);
-      const telefone = "5591980499217"; // coloque o telefone do atendente com DDD
-      window.open(`https://wa.me/${telefone}?text=${textoFinal}`, '_blank');
-    }
-  </script></body>
+<script>
+  const comanda = [];
+  const listaComanda = document.getElementById('itensComanda');
+  const totalSpan = document.getElementById('total');
+
+  document.getElementById('cardapio').addEventListener('click', function(e) {
+    const item = e.target.closest('li');
+    if (!item) return;
+    const nome = item.dataset.nome;
+    const preco = parseFloat(item.dataset.preco);
+
+    const qtd = parseInt(prompt(`Quantidade de "${nome}":`));
+    if (!qtd || qtd <= 0) return;
+
+    comanda.push({ nome, preco, qtd });
+    atualizarComanda();
+  });
+
+  function atualizarComanda() {
+    let cupomText = `===============================\n`;
+    cupomText += ` ARRAIAL DE SÃO FRANCISCO\n`;
+    cupomText += `      COMANDA DO CLIENTE\n`;
+    cupomText += `===============================\n`;
+    cupomText += `ITEM           QTD   VALOR\n`;
+    cupomText += `-------------------------------\n`;
+
+    listaComanda.innerHTML = '';
+    let total = 0;
+    comanda.forEach(item => {
+      const subtotal = item.preco * item.qtd;
+      total += subtotal;
+      const li = document.createElement('li');
+      li.textContent = `${item.qtd}x ${item.nome} - R$ ${subtotal.toFixed(2)}`;
+      listaComanda.appendChild(li);
+      cupomText += `${item.nome.padEnd(14)} x${item.qtd.toString().padEnd(4)} R$ ${subtotal.toFixed(2).padStart(7)}\n`;
+    });
+
+    totalSpan.textContent = total.toFixed(2);
+    cupomText += `-------------------------------\n`;
+    cupomText += `TOTAL                R$ ${total.toFixed(2).padStart(6)}\n`;
+    cupomText += `===============================\n`;
+
+    document.getElementById('cupom').textContent = cupomText;
+    document.getElementById('cupom').style.display = 'block';
+  }
+
+  function calcularTroco() {
+    const recebido = parseFloat(document.getElementById('valorRecebido').value);
+    const total = parseFloat(totalSpan.textContent);
+    const troco = recebido - total;
+    document.getElementById('valorTroco').textContent = troco >= 0 ? troco.toFixed(2) : 'Valor insuficiente';
+  }
+</script>
+
+<footer>
+  <p>&copy; 2025 Arraial de São Francisco de Assis</p>
+</footer>
+
+</body>
 </html>
