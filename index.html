@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,121 +9,202 @@
     body {
       margin: 0;
       font-family: Verdana, sans-serif;
-      background-color: #556b2f;
-	  color: #ffec00;
+      background: url('fundo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-blend-mode: lighten;
+      background-color: rgba(245, 245, 220, 0.8);
+      color: #4e3b1f;
       padding: 1rem;
-	    font-size: 14px;
     }
+
     header {
-	color: #ffec00;
       text-align: center;
       margin-bottom: 1.5rem;
-	  background-color: #6b8e23;
-	  border-radius: 6px;
-	  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      background-color: rgba(222, 184, 135, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      padding: 1rem;
     }
+
     header img {
       width: 80px;
-	  max-width: 100%;
+      max-width: 100%;
+      border-radius: 50%;
     }
+
     h1 {
-      font-size: 2.0rem;
+      font-size: 2rem;
       margin: 0.5rem 0;
     }
+
+    .subtitulo {
+      font-style: italic;
+      font-size: 1rem;
+      color: #6b4e23;
+    }
+
     section {
-      
-	  margin-bottom: 2rem;
+      margin-bottom: 2rem;
       padding: 0.5rem 0;
     }
+
     section h2 {
-      background-color: #b9f8be;
-      padding: 0.5rem;
-      font-size: 1.2rem;
-      border-left: 5px solid #00ff18;
+      background-color: #d2b48c;
+      padding: 0.6rem;
+      font-size: 1.3rem;
+      border-left: 6px solid #8b5e3c;
       margin: 0;
+      color: #3f2e1e;
     }
+
     ul {
       list-style: none;
-	  padding: 0.5rem;
-	  margin: 0;
-	  background: #ffffff;
-	  color: #212121;
-	  border-radius: 6px;
+      padding: 0.5rem;
+      margin: 0;
+      background: rgba(255, 255, 255, 0.9);
+      color: #212121;
+      border-radius: 8px;
     }
+
     li {
-      padding: 0.3rem 0;
+      padding: 0.5rem 0;
       border-bottom: 1px solid #ccc;
       display: flex;
       justify-content: space-between;
-	  flex-wrap: wrap;
+      align-items: center;
+      flex-wrap: wrap;
     }
+
     li span {
       font-weight: bold;
-      color: #00811d;
-	  margin-left: auto;
+      color: #6b4e23;
+      margin-left: auto;
     }
-	li:hover {
-  background-color: #f0fff0;
+
+    li:hover {
+      background-color: #f9f6f1;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    #mensagem-alerta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-	footer {
-	text-align: center;
-	margin-top: 2rem;
-	background-color: #ffffff;
-	padding: 1rem;
-	border-radius: 6px;
-	box-shadow: 0 0 6px rgba(0,0,0,0.1);
-	}
-	.subtitulo {
-  font-style: italic;
+
+.caixa-alerta {
+  background-color: #fff9e6;
+  color: #4e3b1f;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 80%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  font-size: 1.1rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.caixa-alerta button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #8b5e3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
   font-size: 1rem;
-  color: #fffac8;
+}
+
+.caixa-alerta button:hover {
+  background-color: #6b4429;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
   </style>
 </head>
 <body>
 
   <header>
-    <img src="icone.png" alt="Ícone Cardápio">
+    <img src="icone.jpg" alt="Ícone Cardápio">
     <h1>Cardápio do Arraial de São Francisco de Assis</h1>
     <p class="subtitulo">Seja bem-vindo, estamos prontos para lhe atender!</p>
-	<p></p>
   </header>
 
   <section>
-    <h2>Pratos Principais</h2>
+    <h2>🍽️ Pratos Principais</h2>
     <ul>
-      <li>Tacacá <span>R$ 11,00</span></li>
-      <li>Vatapá <span>R$ 8,00</span></li>
-      <li>Arroz com galinha <span>R$ 6,00</span></li>
-      <li>Churrasco no espeto <span>R$ 11,00</span></li>
-      <li>Lasanha <span>R$ 8,00</span></li>
+      <li>🌿 Tacacá <span>R$ 11,00</span></li>
+      <li>🥜 Vatapá <span>R$ 8,00</span></li>
+      <li>🍗 Arroz com galinha <span>R$ 6,00</span></li>
+      <li>🔥 Churrasco no espeto <span>R$ 11,00</span></li>
+      <li>🍝 Lasanha <span>R$ 8,00</span></li>
     </ul>
   </section>
 
   <section>
-    <h2>Lanches & Doces</h2>
+    <h2>🍩 Lanches & Doces</h2>
     <ul>
-      <li>Pipoca <span>R$ 4,00</span></li>
-      <li>Coxinha de Frango <span>R$ 4,00</span></li>
-      <li>Pudim <span>R$ 7,00</span></li>
-      <li>Bolo simples <span>R$ 5,00</span></li>
-      <li>Bolo de chocolate <span>R$ 6,00</span></li>
+      <li>🍿 Pipoca <span>R$ 4,00</span></li>
+      <li>🥟 Coxinha de Frango <span>R$ 4,00</span></li>
+      <li>🍮 Pudim <span>R$ 7,00</span></li>
+      <li>🍰 Bolo simples <span>R$ 5,00</span></li>
+      <li>🍫 Bolo de chocolate <span>R$ 6,00</span></li>
     </ul>
   </section>
 
   <section>
-    <h2>Bebidas & Sobremesas</h2>
+    <h2>🥤 Bebidas & Sobremesas</h2>
     <ul>
-      <li>Suco de Bacuri <span>R$ 6,00</span></li>
-      <li>Refrigerante Lata <span>R$ 5,00</span></li>
-      <li>Refrigerante 2 litros <span>R$ 8,00</span></li>
-      <li>Taça da Felicidade <span>R$ 7,00</span></li>
-      <li>Agua mineral 600ml <span>R$ 4,00</span></li>
+      <li>🥭 Suco de Bacuri <span>R$ 6,00</span></li>
+      <li>🧃 Refrigerante Lata <span>R$ 5,00</span></li>
+      <li>🥤 Refrigerante 2 litros <span>R$ 8,00</span></li>
+      <li>🍨 Taça da Felicidade <span>R$ 7,00</span></li>
+      <li>💧 Água mineral 600ml <span>R$ 4,00</span></li>
     </ul>
   </section>
-<footer>
-<p>&copy; 2025 Arraial de São Francisco de Assis. Todos os direitos reservados.</p>
-<p>Contatos: (91) 98049-9217</p>
-</footer>
+
+  <footer>
+    <p>&copy; 2025 Arraial de São Francisco de Assis. Todos os direitos reservados.</p>
+    <p>Contatos: (91) 98049-9217</p>
+  </footer>
+<div id="mensagem-alerta" style="display:none;">
+  <div class="caixa-alerta">
+    <p>🍽️ Que delícia!<br><br>Dirija-se à <strong>bilheteria</strong> e garanta já o seu pedido.<br>
+    Estamos prontos para lhe servir com carinho! 💛</p>
+    <button onclick="fecharAlerta()">Fechar</button>
+  </div>
+</div>
+<script>
+  function mostrarAlerta() {
+    document.getElementById("mensagem-alerta").style.display = "flex";
+  }
+
+  function fecharAlerta() {
+    document.getElementById("mensagem-alerta").style.display = "none";
+  }
+
+  document.querySelectorAll("li").forEach(item => {
+    item.addEventListener("click", mostrarAlerta);
+  });
+</script>
 
 </body>
 </html>
