@@ -1,209 +1,555 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cardápio do Arraial de São Francisco</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cardápio Online</title>
+
   <style>
+    /* ==================== VARIÁVEIS GLOBAIS ==================== */
+    :root {
+      --categoria-font: 1.4rem;
+      --item-font: 1rem;
+      --preco-font: 1.1rem;
+      --icon-size: 2rem;
+    }
+
+    /* ==================== ESTILOS GERAIS ==================== */
     body {
-      margin: 0;
-      font-family: Verdana, sans-serif;
-      background-size: cover;
-      background-blend-mode: lighten;
-      background-color: rgba(245, 245, 220, 0.8);
-      color: #4e3b1f;
+      font-family: Arial, sans-serif;
       padding: 1rem;
+      background: rgb(252, 255, 209);
     }
 
     header {
       text-align: center;
       margin-bottom: 1.5rem;
-      background-color: rgba(222, 184, 135, 0.9);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      padding: 1rem;
     }
 
-    header img {
-      width: 80px;
-      max-width: 100%;
-      border-radius: 50%;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin: 0.5rem 0;
-    }
-
-    .subtitulo {
-      font-style: italic;
-      font-size: 1rem;
-      color: #6b4e23;
+    h2 {
+      margin: 0;
+      color: #00aebb;
+      font-size: 1.6rem;
     }
 
     section {
-      margin-bottom: 2rem;
-      padding: 0.5rem 0;
+      margin-bottom: 0.5rem;
     }
 
-    section h2 {
-      background-color: #d2b48c;
-      padding: 0.6rem;
-      font-size: 1.3rem;
-      border-left: 6px solid #8b5e3c;
-      margin: 0;
-      color: #3f2e1e;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0.5rem;
-      margin: 0;
-      background: rgba(255, 255, 255, 0.9);
-      color: #212121;
-      border-radius: 8px;
-    }
-
-    li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    li span {
+    /* ==================== TÍTULO DAS CATEGORIAS ==================== */
+    .category-title {
+      border-left: 5px solid #575757;
+      background: #dbdbdb;
+      padding: 0.3rem 1rem;
+      font-size: var(--categoria-font);
       font-weight: bold;
-      color: #6b4e23;
-      margin-left: auto;
+      color: #333333;
+      margin-bottom: 0.4rem;
+      cursor: pointer;
+      user-select: none;
     }
 
-    li:hover {
-      background-color: #f9f6f1;
+    /* ==================== GRID DE ITENS ==================== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 3fr));
+      gap: 10px;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      background-color: rgba(255, 255, 255, 0.9);
+    /* ==================== CARD DE CADA ITEM ==================== */
+    .item {
+      background: #ffffff;
+      border: 1px solid #ddd;
       padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: 0.3s;
     }
-    #mensagem-alerta {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.caixa-alerta {
-  background-color: #fff9e6;
-  color: #4e3b1f;
-  padding: 2rem;
-  border-radius: 12px;
+    .item:hover {
+      background: #dff6ff;
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+    .item-name {
+      font-size: var(--item-font);
+      font-weight: bold;
+      color: #444;
+    }
+
+    .item-price {
+      font-size: var(--preco-font);
+      color: #2980b9;
+      margin-top: 0.3rem;
+      font-weight: bold;
+      /* codigo pra alinhar texto abaixo */
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* ==================== RODAPÉ FIXO ==================== */
+    .footer-fixo {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #59c2c5;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .botao-carrinho {
+      background: #fff;
+      color: #3498db;
+      border: none;
+      padding: 5px 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
+
+    .botao-carrinho:hover {
+      background: #ecf0f1;
+    }
+
+    /* ==================== RESPONSIVIDADE ====================  */
+    @media (max-width: 360px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ==================== POPUPS ==================== */
+    .popup {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      margin-bottom: 2em;
+    }
+
+    .popup-conteudo {
+      background-color: rgb(252, 255, 209);
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .popup input[type="number"] {
+      width: 100px;
+      padding: 0.5rem;
+      margin: 1rem 0;
+      font-size: 1.5rem;
+      border: 2px solid #555555;
+      border-radius: 5px;
+      color: #0000ff;
+      text-align: center;
+    }
+
+    .popup .botoes {
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+    }
+
+    .popup .confirmar {
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      background-color: #39db34;
+      color: white;
+    }
+
+    .popup .cancelar {
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      background-color: #e0e0e0;
+      color: #525252;
+    }
+
+#popup-alerta .alerta-icone {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #f39c12;
   text-align: center;
-  max-width: 80%;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  font-size: 1.1rem;
-  animation: fadeIn 0.4s ease;
 }
 
-.caixa-alerta button {
-  margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  background-color: #8b5e3c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-}
+    /* ==================== DETALHES DO RESUMO ==================== */
+    .subtotal {
+      color: #e6e322;
+      font-weight: bold;
+    }
 
-.caixa-alerta button:hover {
-  background-color: #6b4429;
-}
+    .valor-troco {
+      font-weight: bold;
+      color: rgb(0, 160, 0);
+      margin-top: 0.5rem;
+      font-size: 1.6rem;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
+    #valor-dinheiro {
+      width: 150px;
+      height: 2.5rem;
+      font-size: 1.3rem;
+      padding: 0.3rem 0.5rem;
+    }
 
+    button.remover-item {
+      margin-top: 5px;
+      padding: 3px 7px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background-color: #fae9e7;
+      color: rgb(255, 0, 0);
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button.remover-item:hover {
+      background-color: #c0392b;
+    }
   </style>
 </head>
 <body>
 
+  <!-- ==================== CABEÇALHO ==================== -->
   <header>
-    <img src="icone.png" alt="Ícone Cardápio">
-    <h1>Cardápio do Arraial de São Francisco de Assis</h1>
-    <p class="subtitulo">Seja bem-vindo, estamos prontos para lhe atender!</p>
+    <h1>Cardápio - Lanchonete São Francisco</h1>
   </header>
 
+  <!-- ==================== SEÇÃO DE PRATOS ==================== -->
   <section>
-    <h2>🍽️ Pratos Principais</h2>
-    <ul>
-      <li>🌿 Tacacá <span>R$ 11,00</span></li>
-      <li>🥜 Vatapá <span>R$ 8,00</span></li>
-      <li>🍗 Arroz com galinha <span>R$ 6,00</span></li>
-      <li>🔥 Churrasco no espeto <span>R$ 11,00</span></li>
-      <li>🍝 Lasanha <span>R$ 8,00</span></li>
-    </ul>
+    <div class="category-title" onclick="toggleGrid('pratos')">Pratos Típicos</div>
+    <div id="pratos" class="grid">
+      <div class="item"><div class="item-name">Vatapá</div><div class="item-price">R$ 6,00</div></div>
+      <div class="item"><div class="item-name">Lasanha</div><div class="item-price">R$ 8,00</div></div>
+      <div class="item"><div class="item-name">Churrasco</div><div class="item-price">R$ 12,00</div></div>
+      <div class="item"><div class="item-name">Torta Salgada</div><div class="item-price">R$ 6,00</div></div>
+      <div class="item"><div class="item-name">Tacacá</div><div class="item-price">R$ 10,00</div></div>
+      <div class="item"><div class="item-name">Arroz com galinha</div><div class="item-price">R$ 6,00</div></div>
+    </div>
   </section>
 
+  <!-- ==================== SEÇÃO DE BOLOS ==================== -->
   <section>
-    <h2>🍩 Lanches & Doces</h2>
-    <ul>
-      <li>🍿 Pipoca <span>R$ 4,00</span></li>
-      <li>🥟 Coxinha de Frango <span>R$ 4,00</span></li>
-      <li>🍮 Pudim <span>R$ 7,00</span></li>
-      <li>🍰 Bolo simples <span>R$ 5,00</span></li>
-      <li>🍫 Bolo de chocolate <span>R$ 6,00</span></li>
-    </ul>
+    <div class="category-title" onclick="toggleGrid('bolos')">Bolos e doces</div>
+    <div id="bolos" class="grid hidden">
+      <div class="item"><div class="item-name">Bolo simples</div><div class="item-price">R$ 3,00</div></div>
+      <div class="item"><div class="item-name">Bolo com cobertura</div><div class="item-price">R$ 5,00</div></div>
+      <div class="item"><div class="item-name">Bolo de chocolate</div><div class="item-price">R$ 5,00</div></div>
+      <div class="item"><div class="item-name">Pudim</div><div class="item-price">R$ 4,00</div></div>
+      <div class="item"><div class="item-name">Maçã do Amor</div><div class="item-price">R$ 5,00</div></div>
+    </div>
   </section>
 
+  <!-- ==================== SEÇÃO DE BEBIDAS ==================== -->
   <section>
-    <h2>🥤 Bebidas & Sobremesas</h2>
-    <ul>
-      <li>🥭 Suco de Bacuri <span>R$ 6,00</span></li>
-      <li>🧃 Refrigerante Lata <span>R$ 5,00</span></li>
-      <li>🥤 Refrigerante 2 litros <span>R$ 8,00</span></li>
-      <li>🥤 Coca cola 2 litros <span>R$ 7,00</span></li>
-      <li>💧 Água mineral 600ml <span>R$ 4,00</span></li>
-    </ul>
+    <div class="category-title" onclick="toggleGrid('bebidas')">Bebidas</div>
+    <div id="bebidas" class="grid hidden">
+      <div class="item"><div class="item-name">Refri. Guaraná 2L</div><div class="item-price">R$ 10,00</div></div>
+      <div class="item"><div class="item-name">Coca-Cola 2L</div><div class="item-price">R$ 15,00</div></div>
+      <div class="item"><div class="item-name">Coca-Cola 1L</div><div class="item-price">R$ 8,00</div></div>
+      <div class="item"><div class="item-name">Fanta Uva 2L</div><div class="item-price">R$ 12,00</div></div>
+      <div class="item"><div class="item-name">Fanta Laranja 2L</div><div class="item-price">R$ 12,00</div></div>
+      <div class="item"><div class="item-name">Fanta Laranja 1L</div><div class="item-price">R$ 6,00</div></div>
+      <div class="item"><div class="item-name">Água</div><div class="item-price">R$ 3,00</div></div>
+    </div>
   </section>
 
-  <footer>
-    <p>&copy; 2025 Arraial de São Francisco de Assis. Todos os direitos reservados.</p>
-    <p>Criador - Jefferson Rosário | Contatos: (91) 98049-9217</p>
+  <!-- ==================== RODAPÉ COM BOTÃO DO CARRINHO ==================== -->
+  <footer class="footer-fixo">
+    <button class="botao-carrinho" onclick="mostrarResumo()">🛒 Carrinho</button>
   </footer>
-<div id="mensagem-alerta" style="display:none;">
-  <div class="caixa-alerta">
-    <p>🍽️ Que delícia!<br><br>Dirija-se à <strong>bilheteria</strong> e garanta já o seu pedido.<br>
-    Estamos prontos para lhe servir com carinho! 💛<br>Formas de pagamento <strong>DINHEIRO</strong> e <strong>PIX</strong></p>
-    <button onclick="fecharAlerta()">Fechar</button>
+  <!-- ==================== POP-UP DE QUANTIDADE ==================== -->
+  <div id="popup" class="popup">
+    <div class="popup-conteudo">
+      <h2 id="popup-title">Inserir quant.</h2>
+      <input type="number" id="popup-input" placeholder="Qtd" min="1" />
+
+      <div class="botoes">
+        <button class="cancelar" onclick="fecharPopup()">Voltar</button>
+        <button class="confirmar" onclick="confirmarPopup()">Inserir</button>
+      </div>
+    </div>
+  </div>
+ 
+<!-- ==================== POP-UP DE RESUMO DO PEDIDO ==================== -->
+<div id="resumo-pedido" class="popup">
+  <div class="popup-conteudo" style="max-height: 80vh; overflow-y: auto;">
+    <h2>Resumo do Pedido</h2>
+    <div id="lista-pedido" style="text-align: left; font-size: 1rem; margin-bottom: 1rem;"></div>
+    <div class="botoes">
+      <button href="#" class="cancelar" onclick="fecharResumo()">Voltar</button>
+      <button href="#" class="confirmar" onclick="abrirPagamento()">Pagamento</button>
+    </div>
   </div>
 </div>
-<script>
-  function mostrarAlerta() {
-    document.getElementById("mensagem-alerta").style.display = "flex";
+
+<!-- ==================== POP-UP DE PAGAMENTO ==================== -->
+<div id="pagamento" class="popup">
+  <div class="popup-conteudo" style="max-height: 85vh; overflow-y: auto;">
+    <h2>Concluir Pagamento</h2>
+    <div id="pagamento-itens" style="text-align: left; font-size: 1rem; margin-bottom: 1rem;"></div>
+    <label for="valor-dinheiro" style="font-size: 1.3rem;">Valor em dinheiro:</label>
+    <div style="display:flex; align-items:center;">
+      <span style="margin-right: 5px;">R$</span>
+      <input type="number" id="valor-dinheiro" min="0" oninput="calcularTroco()" />
+    </div>
+    <p id="valor-troco" class="valor-troco"></p>
+    <div class="botoes">
+      <button href="#" class="cancelar" onclick="fecharPagamento()">Voltar</button>
+      <button href="#" class="confirmar" onclick="concluirPedido()">Finalizar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== POP-UP MENSAGEM FINAL ==================== -->
+<div id="mensagem-final" class="popup">
+  <div class="popup-conteudo mensagem">
+    <h2>✅ Pedido concluído com sucesso!</h2>
+    <p>Imprima o recibo e entregue ao cliente.</p>
+  </div>
+</div>
+
+<!-- ==================== POP-UP DE ALERTA (CARRINHO VAZIO) ==================== -->
+<div id="popup-alerta-carrinho" class="popup">
+  <div class="popup-conteudo">
+    <div class="alerta-icone">⚠️</div>
+    <h2>Aviso</h2>
+    <p>Seu carrinho está vazio.</p>
+    <button class="confirmar" onclick="fecharPopupAlerta()">Fechar</button>
+  </div>
+</div>
+  
+<!-- ==================== POP-UP DE ALERTA (DIGITAR VALOR DE PAGAMENTO) ==================== -->
+<div id="popup-alerta-pagamento" class="popup">
+  <div class="popup-conteudo">
+    <div class="alerta-icone">⚠️</div>
+    <h2>Aviso</h2>
+    <p>Inserir valor de pagamento.</p>
+    <button class="confirmar" onclick="fecharPopuppagamento()">Fechar</button>
+  </div>
+</div>
+  
+  <script>
+    /* ==================== VARIÁVEIS GLOBAIS ==================== */
+    let carrinho = []; // lista de itens do carrinho
+    const popup = document.getElementById('popup');
+    const popupTitle = document.getElementById('popup-title');
+    const popupInput = document.getElementById('popup-input');
+    let itemSelecionado = null; // item clicado no cardápio
+
+    /* ==================== EVENTO: CLICK EM CADA ITEM ==================== */
+    document.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('click', () => {
+        itemSelecionado = item;
+        const nome = item.querySelector('.item-name')?.innerText || "Produto";
+        popupTitle.textContent = `Inserir quantidade para: ${nome}`;
+        popupInput.value = 1;
+        popup.style.display = 'flex';
+        popupInput.focus();
+      });
+    });
+
+    /* ==================== CONFIRMA A QUANTIDADE NO POPUP ==================== */
+    function confirmarPopup() {
+      const qtd = parseInt(popupInput.value);
+      if (isNaN(qtd) || qtd < 1) {
+        alert('Digite uma quantidade válida.');
+        popupInput.focus();
+        return;
+      }
+
+      // Extrai dados do item selecionado
+      const nome = itemSelecionado?.querySelector('.item-name')?.innerText || 'Produto';
+      const precoText = itemSelecionado?.querySelector('.item-price')?.innerText || 'R$ 0,00';
+      const preco = parseFloat(precoText.replace('R$', '').replace(',', '.'));
+
+      // Se item já existe no carrinho, soma; caso contrário adiciona
+      const existente = carrinho.find(item => item.nome === nome);
+      if (existente) {
+        existente.qtd += qtd;
+      } else {
+        carrinho.push({ nome, qtd, preco });
+      }
+
+      atualizarCarrinho();
+      popup.style.display = 'none';
+    }
+
+    /* ==================== ATUALIZA O BOTÃO DO CARRINHO ==================== */
+    function atualizarCarrinho() {
+      let total = carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
+      const botao = document.querySelector('.botao-carrinho');
+      botao.textContent = `🛒 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    /* ==================== FUNÇÕES DE FECHAR POPUPS ==================== */
+    function fecharPopup() { popup.style.display = 'none'; }
+    function fecharResumo() { document.getElementById('resumo-pedido').style.display = 'none'; }
+    function fecharPagamento() { document.getElementById('pagamento').style.display = 'none'; }
+
+    /* ==================== MOSTRAR RESUMO DO PEDIDO ==================== */
+    function mostrarResumo() {
+      if (carrinho.length === 0) {
+    mostrarPopupAlerta(); // Mostra o novo popup
+    return;
   }
 
-  function fecharAlerta() {
-    document.getElementById("mensagem-alerta").style.display = "none";
+      const lista = document.getElementById('lista-pedido');
+      lista.innerHTML = "";
+      let total = 0;
+
+      carrinho.forEach((item, index) => {
+        const subtotal = item.qtd * item.preco;
+        total += subtotal;
+        lista.innerHTML += `
+          <p>
+            <strong>${item.qtd}x</strong> ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')} 
+            <br><small class="subtotal">Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}</small>
+            <br>
+            <button class="remover-item" onclick="removerItem(${index})">Remover</button>
+          </p>
+          <hr/>
+        `;
+      });
+
+      lista.innerHTML += `<p style="font-size: 1.6rem; text-align: right;"><strong>Total líquido: R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
+      document.getElementById('resumo-pedido').style.display = 'flex';
+    }
+
+    /* ==================== REMOVER ITEM DO CARRINHO ==================== */
+    function removerItem(index) {
+      if (index > -1 && index < carrinho.length) {
+        carrinho.splice(index, 1);
+        mostrarResumo();
+        atualizarCarrinho();
+      }
+    }
+
+    /* ==================== TROCA ENTRE CATEGORIAS (PRATOS, BEBIDAS, ETC.) ==================== */
+    function toggleGrid(id) {
+      const grids = document.querySelectorAll('.grid');
+      grids.forEach(grid => {
+        grid.id === id ? grid.classList.remove('hidden') : grid.classList.add('hidden');
+      });
+    }
+
+    /* ==================== ABRE TELA DE PAGAMENTO ==================== */
+    function abrirPagamento() {
+      const divItens = document.getElementById('pagamento-itens');
+      divItens.innerHTML = "";
+      let total = 0;
+
+      carrinho.forEach(item => {
+        const subtotal = item.qtd * item.preco;
+        total += subtotal;
+        divItens.innerHTML += `
+          <p><strong>${item.qtd}x</strong> ${item.nome} - R$ ${item.preco.toFixed(2).replace('.', ',')}
+          <br><small>Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}</small></p><hr/>
+        `;
+      });
+
+      divItens.innerHTML += `<p style="text-align: center; font-size: 1.6rem; color: #e67e22;"><strong>Total líquido: R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
+      document.getElementById("valor-dinheiro").value = "";
+      document.getElementById("valor-troco").textContent = "";
+      document.getElementById('pagamento').style.display = 'flex';
+    }
+
+    /* ==================== CALCULAR TROCO ==================== */
+    function calcularTroco() {
+      const valor = parseFloat(document.getElementById("valor-dinheiro").value);
+      let total = carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
+
+      if (!isNaN(valor)) {
+        let troco = valor - total;
+        let trocoTexto = troco >= 0 
+          ? `Troco: R$ ${troco.toFixed(2).replace('.', ',')}` 
+          : `Falta: R$ ${(troco * -1).toFixed(2).replace('.', ',')}`;
+        document.getElementById("valor-troco").textContent = trocoTexto;
+      } else {
+        document.getElementById("valor-troco").textContent = "";
+      }
+    }
+
+    /* ==================== CONCLUIR PEDIDO ==================== */
+    function concluirPedido() {
+      const valor = parseFloat(document.getElementById("valor-dinheiro").value);
+      let total = carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
+
+      if (isNaN(valor)) {
+        document.getElementById("popup-alerta-pagamento").style.display = "flex";
+        // alert("Por favor, informe o valor em dinheiro.");
+        document.getElementById("valor-dinheiro").focus();
+        return;
+      }
+
+      if (valor < total) {
+        const falta = (total - valor).toFixed(2).replace('.', ',');
+        alert(`O valor informado é insuficiente. Ainda faltam R$ ${falta}.`);
+        document.getElementById("valor-dinheiro").focus();
+        return;
+      }
+
+      // Mostra a mensagem final
+      document.getElementById("mensagem-final").style.display = "flex";
+
+      // Fecha e reinicia após 1 segundo
+      setTimeout(() => {
+        fecharMensagemFinal();
+      }, 1000);
+    }
+
+    /* ==================== RESETAR APÓS FINALIZAÇÃO ==================== */
+    function fecharMensagemFinal() {
+      carrinho = []; 
+      atualizarCarrinho(); 
+      document.getElementById("mensagem-final").style.display = "none";
+      fecharPopup();
+      fecharResumo();
+      fecharPagamento();
+    }
+
+  // Função para mostrar o popup de alerta
+function mostrarPopupAlerta() {
+  document.getElementById('popup-alerta-carrinho').style.display = 'flex';
+}
+
+// Função para fechar o popup de alerta
+function fecharPopupAlerta() {
+  document.getElementById('popup-alerta-carrinho').style.display = 'none';
+}
+
+  function fecharPopuppagamento() {
+    document.getElementById('popup-alerta-pagamento').style.display = 'none';
   }
-
-  document.querySelectorAll("li").forEach(item => {
-    item.addEventListener("click", mostrarAlerta);
-  });
-</script>
-
+    /* ==================== ATALHOS DE TECLADO ==================== */
+    popup.addEventListener('click', (e) => { if (e.target === popup) fecharPopup(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharPopup(); });
+  </script>
+  
 </body>
 </html>
