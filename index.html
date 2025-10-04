@@ -52,7 +52,7 @@
     /* ==================== GRID DE ITENS ==================== */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 3fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 2fr));
       gap: 10px;
     }
 
@@ -101,7 +101,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: #59c2c5;
+      background: #ccc;
       padding: 0.8rem 1rem;
       text-align: center;
       box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
@@ -109,8 +109,8 @@
     }
 
     .botao-carrinho {
-      background: #fff;
-      color: #3498db;
+      background: #39db34;
+      color: #fff;
       border: none;
       padding: 5px 15px;
       border-radius: 10px;
@@ -303,7 +303,8 @@
     <div id="lista-pedido" style="text-align: left; font-size: 1rem; margin-bottom: 1rem;"></div>
     <div class="botoes">
       <button href="#" class="cancelar" onclick="fecharResumo()">Voltar</button>
-      <button href="#" class="confirmar" onclick="abrirPagamento()">Pagamento</button>
+      <button href="#" class="confirmar" onclick="abrirPagamento()">Dinheiro</button>
+      <button href="#" class="confirmar" onclick="abrirqrcode()">Pix</button>
     </div>
   </div>
 </div>
@@ -354,6 +355,28 @@
   </div>
 </div>
   
+  <!-- ==================== POP-UP PIX ==================== -->
+<div id="popup-pix" class="popup">
+  <div class="popup-conteudo" style="max-height: 80vh; overflow-y: auto;">
+    <h2>Pagamento via PIX</h2>
+    <p>Escaneie o QR Code abaixo para pagar:</p>
+    
+    <!-- Imagem do QR Code -->
+    <img src="Pix_code.png" 
+         alt="QRCode PIX" 
+         style="width:220px; height:auto; margin:1rem auto; display:block; border:2px solid #555; border-radius:10px;">
+
+  <p>Chave PIX: <strong>00990804275</strong></p>
+<p id="valor-total-pix" style="font-size:1.2rem; font-weight:bold; color:#2c3e50; margin-top:0.5rem;">
+  Inserir este valor no seu App: R$ 0,00
+</p>
+
+    <div class="botoes">
+      <button class="cancelar" onclick="fecharPix()">Voltar</button>
+      <button class="confirmar" onclick="concluirPedidoPix()">Finalizar</button>
+    </div>
+  </div>
+</div>
   <script>
     /* ==================== VARIÁVEIS GLOBAIS ==================== */
     let carrinho = []; // lista de itens do carrinho
@@ -546,6 +569,31 @@ function fecharPopupAlerta() {
   function fecharPopuppagamento() {
     document.getElementById('popup-alerta-pagamento').style.display = 'none';
   }
+  function abrirqrcode() {
+  // Calcula o total do carrinho
+  let total = carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
+
+  // Atualiza o texto do valor total no popup PIX
+  const valorPix = document.getElementById("valor-total-pix");
+  valorPix.textContent = `Inserir este valor no seu App: R$ ${total.toFixed(2).replace('.', ',')}`;
+
+  // Exibe o popup PIX
+  document.getElementById("popup-pix").style.display = "flex";
+}
+
+function fecharPix() {
+  document.getElementById("popup-pix").style.display = "none";
+}
+  function concluirPedidoPix() {
+  // Exibe a mensagem de sucesso
+  document.getElementById("mensagem-final").style.display = "flex";
+
+  // Fecha e reseta tudo após 1 segundo
+  setTimeout(() => {
+    fecharMensagemFinal(); // reutiliza a função já existente
+    fecharPix();           // fecha o popup PIX
+  }, 1000);
+}
     /* ==================== ATALHOS DE TECLADO ==================== */
     popup.addEventListener('click', (e) => { if (e.target === popup) fecharPopup(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharPopup(); });
