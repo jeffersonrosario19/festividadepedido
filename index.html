@@ -6,65 +6,90 @@
   <title>Cardápio Online</title>
 
   <style>
-    /* ==================== VARIÁVEIS GLOBAIS ==================== */
+    /* ==================== VARIÁVEIS GLOBAIS CORES ==================== */
     :root {
-      --categoria-font: 1.4rem;
-      --item-font: 1rem;
-      --preco-font: 1.1rem;
-      --icon-size: 2rem;
+      --cor-bck-body: rgb(247, 247, 247);
+      --cor-bck-card: rgb(255, 255, 255);
+      --cor-bk-popup: rgba(91, 72, 165, 0.557);
+      --cor-white: #ffffff;
+      --cor-h2: #333333;
+      --cor-item: #003d1c;
+      --cor-preco: #868686;
+      --cor-botao: #5b48a5;
+      --cor-botao-hover: #b4a1ff;
+      --cor-border-card: #c0c0c0;
+      --cor-border-card-hover: #5b48a5;
+      --cor-border-categoria: #5B48A5;
+      --cor-categoria: #b4a1ff;
     }
 
     /* ==================== ESTILOS GERAIS ==================== */
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
       padding: 1rem;
-      background: rgb(252, 255, 209);
+      background: var(--cor-bck-body);
     }
 
     header {
       text-align: center;
-      margin-bottom: 1.5rem;
+    }
+    header h1 {
+      margin: 0 0 1rem 0;
+      color: var(--cor-h2);
+    }
+
+    .footer-fixo {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: transparent;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      box-shadow: 0 -2px 6px rgba(13, 156, 0, 0.582);
+      z-index: 100;
     }
 
     h2 {
       margin: 0;
-      color: #00aebb;
-      font-size: 1.6rem;
+      color: var(--cor-h2);
     }
 
     section {
-      margin-bottom: 0.5rem;
+      margin-bottom: 5px;
     }
 
     /* ==================== TÍTULO DAS CATEGORIAS ==================== */
     .category-title {
-      border-left: 5px solid #575757;
-      background: #dbdbdb;
-      padding: 0.3rem 1rem;
+      border-left: 5px solid var(--cor-border-categoria);
+      background: var(--cor-categoria);
+      padding: 0.5rem 1rem;
       font-size: var(--categoria-font);
       font-weight: bold;
-      color: #333333;
-      margin-bottom: 0.4rem;
+      color: var(--cor-border-categoria);
+      margin-bottom: 10px;
       cursor: pointer;
       user-select: none;
+      transition: background 0.3s, color 0.3s;
     }
 
     /* ==================== GRID DE ITENS ==================== */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 2fr));
+      grid-template-columns: repeat(3, 2fr);
       gap: 10px;
     }
 
     /* ==================== CARD DE CADA ITEM ==================== */
     .item {
-      background: #ffffff;
-      border: 1px solid #ddd;
+      background: var(--cor-bck-card);
+      border: 1px solid var(--cor-border-card);
       padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(62, 255, 88, 0.05);
       text-align: center;
-      min-height: 50px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -72,20 +97,20 @@
     }
 
     .item:hover {
-      background: #dff6ff;
+      background: var(--cor-white);
       transform: scale(1.02);
       cursor: pointer;
+      border: 1px solid var(--cor-border-card-hover);
     }
 
     .item-name {
-      font-size: var(--item-font);
       font-weight: bold;
-      color: #444;
+      color: var(--cor-item);
     }
 
     .item-price {
       font-size: var(--preco-font);
-      color: #2980b9;
+      color: var(--cor-preco);
       margin-top: 0.3rem;
       font-weight: bold;
       /* codigo pra alinhar texto abaixo */
@@ -95,50 +120,36 @@
       display: none;
     }
 
-    /* ==================== RODAPÉ FIXO ==================== */
-    .footer-fixo {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #ccc;
-      padding: 0.8rem 1rem;
-      text-align: center;
-      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-      z-index: 100;
+    .icone-car {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
     }
 
     .botao-carrinho {
-      background: #39db34;
+      background: var(--cor-botao);
       color: #fff;
       border: none;
-      padding: 5px 15px;
-      border-radius: 10px;
+      padding: 8px 15px;
+      border-radius: 5px;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      display: inline-flex;
+      display: inline;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
     }
 
     .botao-carrinho:hover {
-      background: #ecf0f1;
-    }
-
-    /* ==================== RESPONSIVIDADE ====================  */
-    @media (max-width: 360px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      background: var(--cor-botao-hover);
     }
 
     /* ==================== POPUPS ==================== */
     .popup {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: var(--cor-bk-popup);
       display: none;
       align-items: center;
       justify-content: center;
@@ -147,7 +158,7 @@
     }
 
     .popup-conteudo {
-      background-color: rgb(252, 255, 209);
+      background-color: var(--cor-white);
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       padding: 2rem;
       border-radius: 10px;
@@ -161,7 +172,6 @@
       padding: 0.5rem;
       margin: 1rem 0;
       font-size: 1.5rem;
-      border: 2px solid #555555;
       border-radius: 5px;
       color: #0000ff;
       text-align: center;
@@ -174,19 +184,24 @@
     }
 
     .popup .confirmar {
+      border: 1px solid rgb(255, 255, 255);
       padding: 0.6rem 1.2rem;
-      border-radius: 6px;
+      border-radius: 10px;
       font-weight: bold;
-      background-color: #39db34;
+      background-color: var(--cor-botao);
       color: white;
     }
 
     .popup .cancelar {
+      border: 1px solid #838383;
       padding: 0.6rem 1.2rem;
-      border-radius: 6px;
+      border-radius: 10px;
       font-weight: bold;
-      background-color: #e0e0e0;
-      color: #525252;
+      background-color: #ececec;
+      color: #838383;
+    }
+    button.confirmar, button.cancelar {
+      cursor: pointer;
     }
 
 #popup-alerta .alerta-icone {
@@ -237,7 +252,7 @@
 
   <!-- ==================== CABEÇALHO ==================== -->
   <header>
-    <h1>Cardápio - Lanchonete São Francisco</h1>
+    <h1>Cardápio</h1>
   </header>
 
   <!-- ==================== SEÇÃO DE PRATOS ==================== -->
@@ -281,7 +296,7 @@
 
   <!-- ==================== RODAPÉ COM BOTÃO DO CARRINHO ==================== -->
   <footer class="footer-fixo">
-    <button class="botao-carrinho" onclick="mostrarResumo()">🛒 Carrinho</button>
+    <button class="botao-carrinho" onclick="mostrarResumo()"><img class="icone-car" src="img/icone_car.svg" alt="Carrinho" /> Carrinho</button>
   </footer>
   <!-- ==================== POP-UP DE QUANTIDADE ==================== -->
   <div id="popup" class="popup">
@@ -341,7 +356,7 @@
     <div class="alerta-icone">⚠️</div>
     <h2>Aviso</h2>
     <p>Seu carrinho está vazio.</p>
-    <button class="confirmar" onclick="fecharPopupAlerta()">Fechar</button>
+    <button class="cancelar" onclick="fecharPopupAlerta()">Fechar</button>
   </div>
 </div>
   
@@ -351,7 +366,7 @@
     <div class="alerta-icone">⚠️</div>
     <h2>Aviso</h2>
     <p>Inserir valor de pagamento.</p>
-    <button class="confirmar" onclick="fecharPopuppagamento()">Fechar</button>
+    <button class="cancelar" onclick="fecharPopuppagamento()">Fechar</button>
   </div>
 </div>
   
@@ -362,7 +377,7 @@
     <p>Escaneie o QR Code abaixo para pagar:</p>
     
     <!-- Imagem do QR Code -->
-    <img src="Pix_code.png" 
+    <img src="img/arroz.png" 
          alt="QRCode PIX" 
          style="width:220px; height:auto; margin:1rem auto; display:block; border:2px solid #555; border-radius:10px;">
 
