@@ -38,6 +38,14 @@
       margin: 0 0 1rem 0;
       color: var(--cor-h2);
     }
+    /* ==================== total liquido ==================== */
+    .tt-liquido {
+      font-size: 1.2rem;
+      text-align: center;
+      color: #e67e22;
+      font-weight: bold;
+      margin-top: 10px;
+    }
 
     .footer-fixo {
       position: fixed;
@@ -121,8 +129,8 @@
     }
 
     .icone-car {
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
       vertical-align: middle;
       margin-right: 8px;
     }
@@ -442,7 +450,7 @@
     function atualizarCarrinho() {
       let total = carrinho.reduce((soma, item) => soma + item.qtd * item.preco, 0);
       const botao = document.querySelector('.botao-carrinho');
-      botao.textContent = `🛒 Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+      botao.innerHTML = `<img class="icone-car" src="img/icone_car.svg" alt="Carrinho"> Total: R$ ${total.toFixed(2).replace('.', ',')}`;
     }
 
     /* ==================== FUNÇÕES DE FECHAR POPUPS ==================== */
@@ -475,7 +483,7 @@
         `;
       });
 
-      lista.innerHTML += `<p style="font-size: 1.6rem; text-align: right;"><strong>Total líquido: R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
+      lista.innerHTML += `<p class="tt-liquido">Total líquido:<strong> R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
       document.getElementById('resumo-pedido').style.display = 'flex';
     }
 
@@ -511,7 +519,7 @@
         `;
       });
 
-      divItens.innerHTML += `<p style="text-align: center; font-size: 1.6rem; color: #e67e22;"><strong>Total líquido: R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
+      divItens.innerHTML += `<p class="tt-liquido">Total líquido:<strong> R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
       document.getElementById("valor-dinheiro").value = "";
       document.getElementById("valor-troco").textContent = "";
       document.getElementById('pagamento').style.display = 'flex';
@@ -555,10 +563,10 @@
       // Mostra a mensagem final
       document.getElementById("mensagem-final").style.display = "flex";
 
-      // Fecha e reinicia após 1 segundo
+      // Fecha e reinicia após 2 segundos
       setTimeout(() => {
         fecharMensagemFinal();
-      }, 1000);
+      }, 2000);
     }
 
     /* ==================== RESETAR APÓS FINALIZAÇÃO ==================== */
@@ -590,7 +598,7 @@ function fecharPopupAlerta() {
 
   // Atualiza o texto do valor total no popup PIX
   const valorPix = document.getElementById("valor-total-pix");
-  valorPix.textContent = `Inserir este valor no seu App: R$ ${total.toFixed(2).replace('.', ',')}`;
+  valorPix.innerHTML = `<p class="tt-liquido">Inserir este valor no seu App:<strong> R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
 
   // Exibe o popup PIX
   document.getElementById("popup-pix").style.display = "flex";
@@ -603,11 +611,11 @@ function fecharPix() {
   // Exibe a mensagem de sucesso
   document.getElementById("mensagem-final").style.display = "flex";
 
-  // Fecha e reseta tudo após 1 segundo
+  // Fecha e reseta tudo após 2 segundos
   setTimeout(() => {
     fecharMensagemFinal(); // reutiliza a função já existente
     fecharPix();           // fecha o popup PIX
-  }, 1000);
+  }, 2000);
 }
     /* ==================== ATALHOS DE TECLADO ==================== */
     popup.addEventListener('click', (e) => { if (e.target === popup) fecharPopup(); });
