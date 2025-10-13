@@ -162,9 +162,16 @@
       align-items: center;
       justify-content: center;
       z-index: 3000;
-      margin-bottom: 2em;
     }
-
+    .popup-carVazio {
+      background-color: var(--cor-white);
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      width: 100%;
+      max-width: 180px;
+    }
     .popup-conteudo {
       background-color: var(--cor-white);
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -172,7 +179,7 @@
       border-radius: 10px;
       text-align: center;
       width: 100%;
-      max-width: 300px;
+      max-width: 260px;
     }
 
     .popup input[type="number"] {
@@ -360,8 +367,8 @@
 
 <!-- ==================== POP-UP DE ALERTA (CARRINHO VAZIO) ==================== -->
 <div id="popup-alerta-carrinho" class="popup">
-  <div class="popup-conteudo">
-    <div class="alerta-icone">⚠️</div>
+  <div class="popup-carVazio">
+    <div class="alerta-icone"><img src="img/icone_alerta.svg" alt="Alerta" /></div>
     <h2>Aviso</h2>
     <p>Seu carrinho está vazio.</p>
     <button class="cancelar" onclick="fecharPopupAlerta()">Fechar</button>
@@ -370,8 +377,8 @@
   
 <!-- ==================== POP-UP DE ALERTA (DIGITAR VALOR DE PAGAMENTO) ==================== -->
 <div id="popup-alerta-pagamento" class="popup">
-  <div class="popup-conteudo">
-    <div class="alerta-icone">⚠️</div>
+  <div class="popup-carVazio">
+    <div class="alerta-icone"><img src="img/icone_alerta.svg" alt="Alerta" /></div>
     <h2>Aviso</h2>
     <p>Inserir valor de pagamento.</p>
     <button class="cancelar" onclick="fecharPopuppagamento()">Fechar</button>
@@ -380,7 +387,7 @@
   
   <!-- ==================== POP-UP PIX ==================== -->
 <div id="popup-pix" class="popup">
-  <div class="popup-conteudo" style="max-height: 80vh; overflow-y: auto;">
+  <div class="popup-conteudo">
     <h2>Pagamento via PIX</h2>
     <p>Escaneie o QR Code abaixo para pagar:</p>
     
