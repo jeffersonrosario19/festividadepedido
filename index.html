@@ -3,265 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cardápio Online</title>
-
-  <style>
-    /* ==================== VARIÁVEIS GLOBAIS CORES ==================== */
-    :root {
-      --cor-bck-body: rgb(247, 247, 247);
-      --cor-bck-card: rgb(255, 255, 255);
-      --cor-bk-popup: rgba(91, 72, 165, 0.557);
-      --cor-white: #ffffff;
-      --cor-h2: #333333;
-      --cor-item: #003d1c;
-      --cor-preco: #868686;
-      --cor-botao: #5b48a5;
-      --cor-botao-hover: #b4a1ff;
-      --cor-border-card: #c0c0c0;
-      --cor-border-card-hover: #5b48a5;
-      --cor-border-categoria: #5B48A5;
-      --cor-categoria: #b4a1ff;
-    }
-
-    /* ==================== ESTILOS GERAIS ==================== */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 1rem;
-      background: var(--cor-bck-body);
-    }
-
-    header {
-      text-align: center;
-    }
-    header h1 {
-      margin: 0 0 1rem 0;
-      color: var(--cor-h2);
-    }
-    /* ==================== total liquido ==================== */
-    .tt-liquido {
-      font-size: 1.2rem;
-      text-align: center;
-      color: #e67e22;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .footer-fixo {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      background: transparent;
-      padding: 0.8rem 1rem;
-      text-align: center;
-      box-shadow: 0 -2px 6px rgba(13, 156, 0, 0.582);
-      z-index: 100;
-    }
-
-    h2 {
-      margin: 0;
-      color: var(--cor-h2);
-    }
-
-    section {
-      margin-bottom: 5px;
-    }
-
-    /* ==================== TÍTULO DAS CATEGORIAS ==================== */
-    .category-title {
-      border-left: 5px solid var(--cor-border-categoria);
-      background: var(--cor-categoria);
-      padding: 0.5rem 1rem;
-      font-size: var(--categoria-font);
-      font-weight: bold;
-      color: var(--cor-border-categoria);
-      margin-bottom: 10px;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    /* ==================== GRID DE ITENS ==================== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 2fr);
-      gap: 10px;
-    }
-
-    /* ==================== CARD DE CADA ITEM ==================== */
-    .item {
-      background: var(--cor-bck-card);
-      border: 1px solid var(--cor-border-card);
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(62, 255, 88, 0.05);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      transition: 0.3s;
-    }
-
-    .item:hover {
-      background: var(--cor-white);
-      transform: scale(1.02);
-      cursor: pointer;
-      border: 1px solid var(--cor-border-card-hover);
-    }
-
-    .item-name {
-      font-weight: bold;
-      color: var(--cor-item);
-    }
-
-    .item-price {
-      font-size: var(--preco-font);
-      color: var(--cor-preco);
-      margin-top: 0.3rem;
-      font-weight: bold;
-      /* codigo pra alinhar texto abaixo */
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .icone-car {
-      width: 25px;
-      height: 25px;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-
-    .botao-carrinho {
-      background: var(--cor-botao);
-      color: #fff;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: inline;
-      align-items: center;
-      transition: 0.3s;
-    }
-
-    .botao-carrinho:hover {
-      background: var(--cor-botao-hover);
-    }
-
-    /* ==================== POPUPS ==================== */
-    .popup {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: var(--cor-bk-popup);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 3000;
-    }
-    .popup-carVazio {
-      background-color: var(--cor-white);
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      width: 100%;
-      max-width: 180px;
-    }
-    .popup-conteudo {
-      background-color: var(--cor-white);
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      width: 100%;
-      max-width: 260px;
-    }
-
-    .popup input[type="number"] {
-      width: 100px;
-      padding: 0.5rem;
-      margin: 1rem 0;
-      font-size: 1.5rem;
-      border-radius: 5px;
-      color: #0000ff;
-      text-align: center;
-    }
-
-    .popup .botoes {
-      display: flex;
-      justify-content: space-around;
-      gap: 1rem;
-    }
-
-    .popup .confirmar {
-      border: 1px solid rgb(255, 255, 255);
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
-      font-weight: bold;
-      background-color: var(--cor-botao);
-      color: white;
-    }
-
-    .popup .cancelar {
-      border: 1px solid #838383;
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
-      font-weight: bold;
-      background-color: #ececec;
-      color: #838383;
-    }
-    button.confirmar, button.cancelar {
-      cursor: pointer;
-    }
-
-#popup-alerta .alerta-icone {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  color: #f39c12;
-  text-align: center;
-}
-
-    /* ==================== DETALHES DO RESUMO ==================== */
-    .subtotal {
-      color: #e6e322;
-      font-weight: bold;
-    }
-
-    .valor-troco {
-      font-weight: bold;
-      color: rgb(0, 160, 0);
-      margin-top: 0.5rem;
-      font-size: 1.6rem;
-    }
-
-    #valor-dinheiro {
-      width: 150px;
-      height: 2.5rem;
-      font-size: 1.3rem;
-      padding: 0.3rem 0.5rem;
-    }
-
-    button.remover-item {
-      margin-top: 5px;
-      padding: 3px 7px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      background-color: #fae9e7;
-      color: rgb(255, 0, 0);
-      border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-
-    button.remover-item:hover {
-      background-color: #c0392b;
-    }
-  </style>
+  <title>Cardápio Online - anota aí</title>
+  <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -317,7 +60,7 @@
   <div id="popup" class="popup">
     <div class="popup-conteudo">
       <h2 id="popup-title">Inserir quant.</h2>
-      <input type="number" id="popup-input" placeholder="Qtd" min="1" />
+      <input class="in-quant" type="number" id="popup-input" placeholder="Qtd" min="1" />
 
       <div class="botoes">
         <button class="cancelar" onclick="fecharPopup()">Voltar</button>
@@ -345,10 +88,7 @@
     <h2>Concluir Pagamento</h2>
     <div id="pagamento-itens" style="text-align: left; font-size: 1rem; margin-bottom: 1rem;"></div>
     <label for="valor-dinheiro" style="font-size: 1.3rem;">Valor em dinheiro:</label>
-    <div style="display:flex; align-items:center;">
-      <span style="margin-right: 5px;">R$</span>
-      <input type="number" id="valor-dinheiro" min="0" oninput="calcularTroco()" />
-    </div>
+    <input class="in-dinheiro" type="number" id="valor-dinheiro" min="0" oninput="calcularTroco()" placeholder="R$ 0,00"/>
     <p id="valor-troco" class="valor-troco"></p>
     <div class="botoes">
       <button href="#" class="cancelar" onclick="fecharPagamento()">Voltar</button>
@@ -375,7 +115,7 @@
   </div>
 </div>
   
-<!-- ==================== POP-UP DE ALERTA (DIGITAR VALOR DE PAGAMENTO) ==================== -->
+<!-- ==================== POP-UP DE ALERTA (PAGAMENTO VAZIO) ==================== -->
 <div id="popup-alerta-pagamento" class="popup">
   <div class="popup-carVazio">
     <div class="alerta-icone"><img src="img/icone_alerta.svg" alt="Alerta" /></div>
@@ -392,7 +132,7 @@
     <p>Escaneie o QR Code abaixo para pagar:</p>
     
     <!-- Imagem do QR Code -->
-    <img src="img/arroz.png" 
+    <img src="img/vatapa.png" 
          alt="QRCode PIX" 
          style="width:220px; height:auto; margin:1rem auto; display:block; border:2px solid #555; border-radius:10px;">
 
@@ -451,6 +191,19 @@
 
       atualizarCarrinho();
       popup.style.display = 'none';
+
+        const botaoCarrinho = document.querySelector('.botao-carrinho');
+        const textoOriginal = botaoCarrinho.textContent;
+        botaoCarrinho.textContent = '✔ Item adicionado!';
+        botaoCarrinho.disabled = true;
+
+        setTimeout(() => {
+        botaoCarrinho.textContent = textoOriginal;
+        botaoCarrinho.disabled = false;
+      }, 1500);
+
+  // Limpa input para próxima vez
+  popupInput.value = 1;
     }
 
     /* ==================== ATUALIZA O BOTÃO DO CARRINHO ==================== */
