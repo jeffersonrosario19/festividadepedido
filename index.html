@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -160,7 +161,7 @@
       item.addEventListener('click', () => {
         itemSelecionado = item;
         const nome = item.querySelector('.item-name')?.innerText || "Produto";
-        popupTitle.textContent = `Inserir quantidade para: ${nome}`;
+        popupTitle.textContent = `Inserir ${nome}`;
         popupInput.value = 1;
         popup.style.display = 'flex';
         popupInput.focus();
@@ -339,10 +340,10 @@
       fecharPagamento();
     }
 
-  // Função para mostrar o popup de alerta
-function mostrarPopupAlerta() {
-  document.getElementById('popup-alerta-carrinho').style.display = 'flex';
-}
+	// Função para mostrar o popup de alerta
+	function mostrarPopupAlerta() {
+		document.getElementById('popup-alerta-carrinho').style.display = 'flex';
+	}
 
 // Função para fechar o popup de alerta
 function fecharPopupAlerta() {
@@ -358,7 +359,7 @@ function fecharPopupAlerta() {
 
   // Atualiza o texto do valor total no popup PIX
   const valorPix = document.getElementById("valor-total-pix");
-  valorPix.innerHTML = `<p class="tt-liquido">Inserir este valor no seu App:<strong> R$ ${total.toFixed(2).replace('.', ',')}</strong></p>`;
+  valorPix.innerHTML = `<p class="tt-liquido">Inserir <strong> R$ ${total.toFixed(2).replace('.', ',')}</strong> no seu <b>App de Pagamentos.</b></p>`;
 
   // Exibe o popup PIX
   document.getElementById("popup-pix").style.display = "flex";
