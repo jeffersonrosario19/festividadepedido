@@ -3,7 +3,7 @@ const itensCardapio = {
   "pratos": [
     {
       "nome": "Vatapá",
-      "preco": 6
+      "preco": 8
     },
     {
       "nome": "Lasanha",
@@ -15,11 +15,7 @@ const itensCardapio = {
     },
     {
       "nome": "Torta Salgada",
-      "preco": 6
-    },
-    {
-      "nome": "Tacacá",
-      "preco": 10
+      "preco": 8
     },
     {
       "nome": "Arroz com galinha",
@@ -32,7 +28,7 @@ const itensCardapio = {
       "preco": 3
     },
     {
-      "nome": "Bolo com cobertura",
+      "nome": "Bolo com recheio",
       "preco": 5
     },
     {
@@ -51,7 +47,7 @@ const itensCardapio = {
   "bebidas": [
     {
       "nome": "Refri. Guaraná 2L",
-      "preco": 10
+      "preco": 13
     },
     {
       "nome": "Coca-Cola 2L",
@@ -59,23 +55,27 @@ const itensCardapio = {
     },
     {
       "nome": "Coca-Cola 1L",
-      "preco": 8
+      "preco": 10
     },
     {
       "nome": "Fanta Uva 2L",
-      "preco": 12
+      "preco": 13
     },
     {
       "nome": "Fanta Laranja 2L",
-      "preco": 12
+      "preco": 13
     },
     {
       "nome": "Fanta Laranja 1L",
-      "preco": 6
+      "preco": 10
     },
     {
       "nome": "Água",
       "preco": 3
     }
+    {
+    "nome": "Suco 1 L",
+      "preco": 10"
+      },
   ]
 };
