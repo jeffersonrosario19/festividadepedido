@@ -56,6 +56,10 @@ const itensCardapio = {
       "nome": "Maçã do Amor",
       "preco": 5,
       "imagem": "img/product_20260927T133946_0bceb0188bab9cbd.jpg"
+    },
+    {
+ "nome": "Bolo de macaxeira",
+      "preco": 3
     }
   ],
   "bebidas": [
@@ -71,7 +75,7 @@ const itensCardapio = {
     },
     {
       "nome": "Fanta Uva 2L",
-      "preco": 12
+      "preco": 13
     },
     {
       "nome": "Coca-Cola 1L",
