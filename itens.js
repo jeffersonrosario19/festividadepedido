@@ -72,10 +72,10 @@ const itensCardapio = {
     {
       "nome": "Água",
       "preco": 3
-    }
+    },
     {
     "nome": "Suco 1 L",
       "preco": 10"
-      },
+      }
   ]
 };
