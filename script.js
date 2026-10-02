@@ -2,18 +2,61 @@
 function renderizarItens() {
   Object.entries(itensCardapio).forEach(([categoria, itens]) => {
     const grid = document.getElementById(categoria);
+    const contadorCategoria = document.querySelector(`.category-title[data-categoria="${categoria}"] .category-count`);
     const fragmento = document.createDocumentFragment();
 
-    itens.forEach(({ nome, preco }) => {
-      const item = document.createElement('div');
+    if (contadorCategoria) {
+      contadorCategoria.textContent = itens.length;
+      contadorCategoria.setAttribute('aria-label', `${itens.length} produtos`);
+    }
+
+    itens.forEach(({ nome, preco, imagem }) => {
+      const item = document.createElement('button');
+      item.type = 'button';
       item.className = 'item';
+      if (categoria === 'bebidas') item.classList.add('item-bebida');
+      item.dataset.nome = nome;
+      item.dataset.preco = preco;
+      item.setAttribute('aria-label', `Adicionar uma unidade de ${nome}, 0 no carrinho`);
+      const imagemElemento = document.createElement(imagem ? 'img' : 'span');
+      if (imagem) {
+        const miniatura = imagem.replace('.jpg', '_thumb.jpg');
+        imagemElemento.className = 'item-image';
+        if (categoria === 'pratos') {
+          imagemElemento.src = miniatura;
+        } else {
+          imagemElemento.dataset.src = miniatura;
+        }
+        imagemElemento.alt = '';
+        imagemElemento.loading = 'lazy';
+        imagemElemento.decoding = 'async';
+        imagemElemento.fetchPriority = 'low';
+      } else {
+        imagemElemento.className = 'item-image item-image-placeholder';
+        imagemElemento.textContent = 'Sem foto';
+        imagemElemento.setAttribute('aria-hidden', 'true');
+      }
+      const imagemContainer = document.createElement('span');
+      imagemContainer.className = 'item-image-container';
       const nomeElemento = document.createElement('div');
       nomeElemento.className = 'item-name';
       nomeElemento.textContent = nome;
-      const precoElemento = document.createElement('div');
+      const precoElemento = document.createElement('span');
       precoElemento.className = 'item-price';
       precoElemento.textContent = preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-      item.append(nomeElemento, precoElemento);
+      const contador = document.createElement('span');
+      contador.className = 'item-contador';
+      contador.textContent = '0';
+      contador.hidden = true;
+      const acoesElemento = document.createElement('span');
+      acoesElemento.className = 'item-acoes';
+      const incrementoElemento = document.createElement('span');
+      incrementoElemento.className = 'item-incremento';
+      incrementoElemento.textContent = '+';
+      incrementoElemento.setAttribute('aria-hidden', 'true');
+      imagemContainer.append(imagemElemento, contador);
+      acoesElemento.append(precoElemento, incrementoElemento);
+      item.append(imagemContainer, nomeElemento, acoesElemento);
       fragmento.append(item);
     });
 
@@ -30,17 +73,30 @@ renderizarItens();
     const popupInput = document.getElementById('popup-input');
     let itemSelecionado = null; // item clicado no cardápio
 
-    /* ==================== EVENTO: CLICK EM CADA ITEM ==================== */
-    document.querySelectorAll('.item').forEach(item => {
-      item.addEventListener('click', () => {
-        itemSelecionado = item;
-        const nome = item.querySelector('.item-name')?.innerText || "Produto";
-        popupProduto.textContent = nome;
-        popupInput.value = 1;
-        popup.style.display = 'flex';
-        popupInput.focus();
+    /* ==================== CLICK SOMA UMA UNIDADE ==================== */
+    document.querySelectorAll('.item').forEach(card => {
+      card.addEventListener('click', () => {
+        const nome = card.dataset.nome;
+        const existente = carrinho.find(item => item.nome === nome);
+        if (existente) {
+          if (!Number.isSafeInteger(existente.qtd + 1)) return;
+          existente.qtd += 1;
+        } else {
+          carrinho.push({ nome, qtd: 1, preco: Number(card.dataset.preco) });
+        }
+        atualizarCarrinho();
       });
     });
+
+    function editarQuantidade(index) {
+      itemSelecionado = carrinho[index];
+      if (!itemSelecionado) return;
+      popupProduto.textContent = itemSelecionado.nome;
+      popupInput.value = itemSelecionado.qtd;
+      document.getElementById('resumo-pedido').style.display = 'none';
+      popup.style.display = 'flex';
+      popupInput.focus();
+    }
 
     /* ==================== CONFIRMA A QUANTIDADE NO POPUP ==================== */
     function alterarQuantidade(delta) {
@@ -58,25 +114,10 @@ renderizarItens();
         return;
       }
 
-      // Extrai dados do item selecionado
-      const nome = itemSelecionado?.querySelector('.item-name')?.innerText || 'Produto';
-      const precoText = itemSelecionado?.querySelector('.item-price')?.innerText || 'R$ 0,00';
-      const preco = parseFloat(precoText.replace('R$', '').replace(',', '.'));
-
-      // Se item já existe no carrinho, soma; caso contrário adiciona
-      const existente = carrinho.find(item => item.nome === nome);
-      if (existente) {
-        existente.qtd += qtd;
-      } else {
-        carrinho.push({ nome, qtd, preco });
-      }
-
+      if (!itemSelecionado || !carrinho.includes(itemSelecionado)) return;
+      itemSelecionado.qtd = qtd;
       atualizarCarrinho();
-      popup.style.display = 'none';
-
-
-  // Limpa input para próxima vez
-  popupInput.value = 1;
+      fecharPopup();
     }
 
     /* ==================== ATUALIZA O BOTÃO DO CARRINHO ==================== */
@@ -89,10 +130,22 @@ renderizarItens();
       document.getElementById('carrinho-quantidade').textContent = itensTexto;
       document.getElementById('carrinho-total').textContent = valorTexto;
       botao.setAttribute('aria-label', `Ver carrinho, ${itensTexto}, total ${valorTexto}`);
+      document.querySelectorAll('.item').forEach(card => {
+        const qtd = carrinho.find(item => item.nome === card.dataset.nome)?.qtd || 0;
+        const contador = card.querySelector('.item-contador');
+        contador.textContent = qtd;
+        contador.hidden = qtd === 0;
+        card.classList.toggle('item-selecionado', qtd > 0);
+        card.setAttribute('aria-label', `Adicionar uma unidade de ${card.dataset.nome}, ${qtd} no carrinho`);
+      });
     }
 
     /* ==================== FUNÇÕES DE FECHAR POPUPS ==================== */
-    function fecharPopup() { popup.style.display = 'none'; }
+    function fecharPopup() {
+      popup.style.display = 'none';
+      if (itemSelecionado && carrinho.length > 0) mostrarResumo();
+      itemSelecionado = null;
+    }
     function fecharResumo() { document.getElementById('resumo-pedido').style.display = 'none'; }
     function fecharPagamento() { document.getElementById('pagamento').style.display = 'none'; }
 
@@ -109,7 +162,7 @@ renderizarItens();
 
       lista.innerHTML = `<ul class="resumo-lista">${carrinho.map((item, index) => `
         <li class="resumo-item">
-            <span class="resumo-quantidade">${item.qtd}×</span>
+            <button type="button" class="resumo-quantidade" onclick="editarQuantidade(${index})" aria-label="Editar quantidade de ${item.nome}" title="Editar quantidade">${item.qtd}×</button>
             <div class="resumo-item-detalhes">
               <strong class="resumo-nome">${item.nome}</strong>
               <span class="resumo-preco">${formatarValor(item.preco)} cada</span>
@@ -140,6 +193,14 @@ renderizarItens();
       const grids = document.querySelectorAll('.grid');
       grids.forEach(grid => {
         grid.id === id ? grid.classList.remove('hidden') : grid.classList.add('hidden');
+      });
+      carregarImagensCategoria(id);
+    }
+
+    function carregarImagensCategoria(id) {
+      document.querySelectorAll(`#${id} .item-image[data-src]`).forEach(imagem => {
+        imagem.src = imagem.dataset.src;
+        imagem.removeAttribute('data-src');
       });
     }
 
