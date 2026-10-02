@@ -16,21 +16,21 @@
 
   <!-- ==================== SEÇÃO DE PRATOS ==================== -->
   <section>
-    <div class="category-title" onclick="toggleGrid('pratos')">Pratos Típicos</div>
+    <div class="category-title" data-categoria="pratos" onclick="toggleGrid('pratos')"><span>Pratos Típicos</span><span class="category-count" aria-label="Quantidade de produtos"></span></div>
     <div id="pratos" class="grid">
     </div>
   </section>
 
   <!-- ==================== SEÇÃO DE BOLOS ==================== -->
   <section>
-    <div class="category-title" onclick="toggleGrid('bolos')">Bolos e doces</div>
+    <div class="category-title" data-categoria="bolos" onclick="toggleGrid('bolos')"><span>Bolos e doces</span><span class="category-count" aria-label="Quantidade de produtos"></span></div>
     <div id="bolos" class="grid hidden">
     </div>
   </section>
 
   <!-- ==================== SEÇÃO DE BEBIDAS ==================== -->
   <section>
-    <div class="category-title" onclick="toggleGrid('bebidas')">Bebidas</div>
+    <div class="category-title" data-categoria="bebidas" onclick="toggleGrid('bebidas')"><span>Bebidas</span><span class="category-count" aria-label="Quantidade de produtos"></span></div>
     <div id="bebidas" class="grid hidden">
     </div>
   </section>
@@ -43,9 +43,9 @@
     </button>
   </footer>
   <!-- ==================== POP-UP DE QUANTIDADE ==================== -->
-  <div id="popup" class="popup">
+  <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
     <div class="popup-conteudo">
-      <h2 id="popup-title">Qual quantidade deseja?</h2>
+      <h2 id="popup-title">Ajustar quantidade</h2>
       <p id="popup-produto" class="quantidade-produto"></p>
       <p class="quantidade-instrucao">Use os botões − e + para ajustar.</p>
       <div class="controle-quantidade" role="group" aria-label="Quantidade do produto">
@@ -56,7 +56,7 @@
 
       <div class="botoes">
         <button class="cancelar" onclick="fecharPopup()">Voltar</button>
-        <button class="confirmar" onclick="confirmarPopup()">Inserir</button>
+        <button class="confirmar" onclick="confirmarPopup()">Salvar</button>
       </div>
     </div>
   </div>
